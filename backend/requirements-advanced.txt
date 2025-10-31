@@ -1,0 +1,52 @@
+# Advanced AI Features for HireScope
+# Install with: pip install -r requirements-advanced.txt
+
+# ===== RAG (Retrieval Augmented Generation) =====
+langchain==0.1.20
+langchain-community==0.0.38
+faiss-cpu==1.8.0              # Vector database (use faiss-gpu if you have CUDA)
+tiktoken==0.6.0                # Token counting
+
+# ===== Enhanced OCR =====
+easyocr==1.7.1                 # Multi-language OCR
+opencv-python==4.9.0.80        # Image processing
+paddlepaddle==2.6.1            # Optional: PaddleOCR backend
+paddleocr==2.7.3               # Optional: Alternative OCR
+
+# ===== Advanced NLP Models =====
+transformers==4.40.0           # Hugging Face models
+accelerate==0.29.3             # Faster model loading
+bitsandbytes==0.43.1           # 8-bit quantization for LLMs
+
+# ===== Better Embeddings =====
+# Already in main requirements.txt:
+# sentence-transformers==2.3.1
+
+# Optional better embedding models (uncomment to use):
+# InstructorEmbedding==1.0.1   # Instruction-based embeddings
+
+# ===== LLM APIs (Optional) =====
+openai==1.25.0                 # GPT-4, GPT-3.5
+anthropic==0.23.1              # Claude
+cohere==5.1.8                  # Cohere embeddings/generation
+
+# ===== Local LLM Support =====
+llama-cpp-python==0.2.56       # Run LLMs locally (Mistral, Llama, etc.)
+ctransformers==0.2.27          # Alternative C++ backend
+
+# ===== Document Understanding =====
+# For LayoutLM and document layout analysis
+# torch==2.2.2                 # Uncomment if not already installed
+# torchvision==0.17.2          # Uncomment if not already installed
+# detectron2 @ git+https://github.com/facebookresearch/detectron2.git  # Advanced layout detection
+
+# ===== Vector Databases (Alternatives to FAISS) =====
+# chromadb==0.4.24             # Simple persistent vector DB
+# qdrant-client==1.8.2         # High-performance vector search
+# pinecone-client==3.2.2       # Cloud vector database
+# weaviate-client==4.5.4       # Semantic search engine
+
+# ===== Monitoring & Optimization =====
+gradio==4.26.0                 # Quick UI for model testing
+prometheus-client==0.20.0      # Metrics collection
+```
