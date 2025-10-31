@@ -12,7 +12,7 @@ from core.rag_engine import get_rag_engine
 import logging
 
 logger = logging.getLogger(__name__)
-router = APIRouter()
+router = APIRouter(prefix="/api/live", tags=["live"])
 
 @router.post("/live-analyze")
 async def live_analyze(resume_text: str = Form(...), job_description: str = Form("")):

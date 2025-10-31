@@ -13,6 +13,7 @@ import Footer from "./components/Footer";
 import TemplatesPage from "./pages/TemplatesPage";
 import ATSSimulatorPage from "./pages/ATSSimulatorPage";
 import BatchAnalysisPage from "./pages/BatchAnalysisPage";
+import AboutPage from "./pages/AboutPage";
 
 function App() {
   const [result, setResult] = useState(null);
@@ -22,12 +23,14 @@ function App() {
   const [showTemplates, setShowTemplates] = useState(false);
   const [showATS, setShowATS] = useState(false);
   const [showBatch, setShowBatch] = useState(false);
+  const [showAboutPage, setShowAboutPage] = useState(false);
 
   const openAnalyzer = () => {
     setShowAnalyzer(true);
     setShowTemplates(false);
     setShowATS(false);
     setShowBatch(false);
+    setShowAboutPage(false);
     window.scrollTo({ top: 0, behavior: 'smooth' });
   };
 
@@ -36,6 +39,7 @@ function App() {
     setShowAnalyzer(false);
     setShowATS(false);
     setShowBatch(false);
+    setShowAboutPage(false);
     setResult(null);
     setError(null);
     window.scrollTo({ top: 0, behavior: 'smooth' });
@@ -46,6 +50,7 @@ function App() {
     setShowAnalyzer(false);
     setShowTemplates(false);
     setShowBatch(false);
+    setShowAboutPage(false);
     setResult(null);
     setError(null);
     window.scrollTo({ top: 0, behavior: 'smooth' });
@@ -56,6 +61,18 @@ function App() {
     setShowAnalyzer(false);
     setShowTemplates(false);
     setShowATS(false);
+    setShowAboutPage(false);
+    setResult(null);
+    setError(null);
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  };
+
+  const openAboutPage = () => {
+    setShowAboutPage(true);
+    setShowAnalyzer(false);
+    setShowTemplates(false);
+    setShowATS(false);
+    setShowBatch(false);
     setResult(null);
     setError(null);
     window.scrollTo({ top: 0, behavior: 'smooth' });
@@ -126,8 +143,10 @@ function App() {
           setShowTemplates(false);
           setShowATS(false);
           setShowBatch(false);
+          setShowAboutPage(false);
           window.scrollTo({ top: 0, behavior: 'smooth' });
         }}
+        onAboutClick={openAboutPage}
         onTemplatesClick={openTemplates}
         onATSClick={openATS}
         onBatchClick={openBatch}
@@ -145,6 +164,9 @@ function App() {
           ) : showBatch ? (
             // Batch Analysis Page
             <BatchAnalysisPage key="batch" />
+          ) : showAboutPage ? (
+            // About Page
+            <AboutPage key="about" />
           ) : !showAnalyzer && !result ? (
             // Landing Page
             <motion.div

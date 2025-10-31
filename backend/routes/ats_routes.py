@@ -17,9 +17,10 @@ def analyze_ats_parsing(text: str, metadata: Dict[str, Any]) -> Dict[str, Any]:
     """
     issues = []
     
-    # Check for special characters that might cause issues
-    special_chars = re.findall(r'[^\w\s\-.,@()\[\]:/]', text)
-    if len(special_chars) > 10:
+    # Check for special characters that might cause issues (excluding common punctuation)
+    # Only flag truly problematic characters: emoji, decorative symbols, etc.
+    special_chars = re.findall(r'[^\w\s\-.,@()\[\]:/;\'\"!?#%&+=<>|\n\r\t]', text)
+    if len(special_chars) > 20:
         issues.append({
             "type": "special_characters",
             "severity": "medium",
@@ -94,15 +95,32 @@ def analyze_ats_parsing(text: str, metadata: Dict[str, Any]) -> Dict[str, Any]:
             "suggestion": "Avoid images, text boxes, and complex formatting. Use standard text only."
         })
     
-    # Check for common section headers
-    common_headers = ['experience', 'education', 'skills', 'summary', 'objective']
+    # Check for common section headers (expanded list)
+    common_headers = [
+        'experience', 'education', 'skills', 'summary', 'objective',
+        'work experience', 'professional experience', 'employment',
+        'certifications', 'certificates', 'projects', 'portfolio',
+        'achievements', 'accomplishments', 'awards',
+        'languages', 'technical skills', 'soft skills',
+        'qualifications', 'profile', 'about', 'background',
+        'training', 'courses', 'volunteer', 'activities',
+        'interests', 'hobbies', 'references', 'publications'
+    ]
     found_headers = []
     text_lower = text.lower()
-    for header in common_headers:
-        if header in text_lower:
-            found_headers.append(header)
     
-    if len(found_headers) < 2:
+    # Count unique section headers found
+    seen_headers = set()
+    for header in common_headers:
+        # Use word boundary to avoid partial matches
+        if re.search(r'\b' + re.escape(header) + r'\b', text_lower):
+            # Add to seen set to avoid counting variations of same section
+            base = header.split()[0]  # e.g., "work experience" -> "work"
+            if base not in seen_headers:
+                seen_headers.add(base)
+                found_headers.append(header)
+    
+    if len(found_headers) < 3:
         issues.append({
             "type": "structure",
             "severity": "medium",
@@ -138,11 +156,12 @@ def analyze_ats_parsing(text: str, metadata: Dict[str, Any]) -> Dict[str, Any]:
         "metadata": metadata,
         "statistics": {
             "total_characters": len(text),
-            "total_lines": len(lines),
+            "total_lines": len([l for l in lines if l.strip()]),  # Only non-empty lines
             "emails_found": len(emails),
             "phones_found": len(phones),
             "urls_found": len(urls),
-            "sections_detected": found_headers
+            "sections_detected": len(found_headers),  # Return count, not list
+            "sections_list": found_headers  # Keep list for reference
         }
     }
 

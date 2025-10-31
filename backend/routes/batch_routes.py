@@ -5,12 +5,12 @@ Analyze multiple resumes against a single job description
 from fastapi import APIRouter, UploadFile, File, Form, HTTPException
 from typing import List
 import io
-from core.parsing import extract_text_from_pdf, extract_text_from_docx
-from core.preprocess import clean_text
-from core.keyword_match import keyword_matching_score
-from core.scoring import calculate_overall_score
-from core.skill_detection import detect_skills
-from core.insights import generate_suggestions
+from core.parsing import extract_text_from_file
+from core.preprocess import segment_text
+from core.keyword_match import compute_keyword_match
+from core.scoring import compute_scores_with_role
+from core.skill_detection import detect_all_skill_levels, get_skill_level_summary
+from core.embedding_store import embed_texts, get_model
 
 router = APIRouter(prefix="/api/batch", tags=["batch"])
 
@@ -41,27 +41,15 @@ async def batch_analyze_resumes(
             )
         
         results = []
-        jd_clean = clean_text(job_description)
+        model = get_model()  # Load embedding model once
         
         for idx, file in enumerate(resume_files):
             try:
                 # Read file content
                 file_content = await file.read()
-                file_io = io.BytesIO(file_content)
                 
-                # Extract text based on file type
-                if file.filename.lower().endswith('.pdf'):
-                    resume_text = extract_text_from_pdf(file_io)
-                elif file.filename.lower().endswith(('.docx', '.doc')):
-                    resume_text = extract_text_from_docx(file_io)
-                else:
-                    results.append({
-                        "filename": file.filename,
-                        "status": "error",
-                        "error": "Unsupported file format. Use PDF or DOCX.",
-                        "overall_score": 0
-                    })
-                    continue
+                # Extract text
+                resume_text, _, _ = extract_text_from_file(file_content, file.filename)
                 
                 if not resume_text or len(resume_text.strip()) < 100:
                     results.append({
@@ -72,30 +60,38 @@ async def batch_analyze_resumes(
                     })
                     continue
                 
-                # Clean resume text
-                resume_clean = clean_text(resume_text)
+                # Perform keyword matching
+                keyword_stats = compute_keyword_match(resume_text, job_description)
                 
-                # Perform analysis
-                keyword_score = keyword_matching_score(resume_clean, jd_clean)
-                skills = detect_skills(resume_text)
-                overall_score = calculate_overall_score(
-                    keyword_score=keyword_score,
-                    skills_detected=len(skills)
+                # Detect skills
+                skill_levels = {}
+                if keyword_stats.get('matches'):
+                    try:
+                        skill_levels = detect_all_skill_levels(resume_text, keyword_stats['matches'])
+                    except:
+                        pass
+                
+                # Compute embeddings for scoring
+                doc_embedding = embed_texts([resume_text], model=model)[0]
+                
+                # Calculate scores
+                sections = segment_text(resume_text)
+                scores = compute_scores_with_role(
+                    resume_text,
+                    keyword_stats,
+                    doc_embedding,
+                    [],  # We don't need sentence embeddings for batch
+                    sections,
+                    job_description
                 )
                 
-                # Generate quick insights
-                suggestions = generate_suggestions(
-                    resume_text=resume_text,
-                    job_description=job_description,
-                    keyword_score=keyword_score,
-                    skills=skills
-                )
+                overall_score = scores.get('overall', 0)
                 
                 # Extract key metrics
                 word_count = len(resume_text.split())
-                skills_count = len(skills)
+                skills_count = len(skill_levels)
                 
-                # Determine status/rank indicator
+                # Determine rank indicator
                 if overall_score >= 85:
                     rank = "Excellent"
                     rank_color = "green"
@@ -113,13 +109,12 @@ async def batch_analyze_resumes(
                     "filename": file.filename,
                     "status": "success",
                     "overall_score": round(overall_score, 1),
-                    "keyword_score": round(keyword_score, 1),
+                    "keyword_score": round(scores.get('keyword_relevance', 0), 1),
                     "skills_count": skills_count,
                     "word_count": word_count,
                     "rank": rank,
                     "rank_color": rank_color,
-                    "top_skills": skills[:5],  # Top 5 skills
-                    "top_suggestions": suggestions[:3],  # Top 3 suggestions
+                    "top_skills": list(skill_levels.keys())[:5] if skill_levels else [],
                     "analysis_id": f"batch_{idx+1}"
                 })
                 

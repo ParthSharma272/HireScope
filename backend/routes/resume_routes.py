@@ -26,7 +26,7 @@ except (ImportError, OSError) as e:
     render_pdf_report = None
 
 logger = logging.getLogger(__name__)
-router = APIRouter()
+router = APIRouter(prefix="/api/resume", tags=["resume"])
 
 @router.post("/upload")
 async def upload_resume(file: UploadFile = File(...), job_description: str = Form(None)):

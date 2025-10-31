@@ -37,7 +37,7 @@ export default function Header({ onLogoClick, onAboutClick, onTemplatesClick, on
           {/* Navigation */}
           <nav className="flex items-center gap-4">
             <button
-              onClick={() => scrollToSection('about')}
+              onClick={onAboutClick}
               className="text-gray-600 hover:text-gray-900 font-medium transition-colors"
             >
               About

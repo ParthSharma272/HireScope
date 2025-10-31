@@ -421,7 +421,7 @@ export default function BatchAnalysis() {
                               </span>
                             )}
                           </td>
-                        </tr>
+                        </motion.tr>
                       ))}
                     </tbody>
                   </table>

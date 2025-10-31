@@ -229,7 +229,7 @@ export default function ATSSimulator() {
                   <div className="text-sm text-gray-600">Phone(s) Found</div>
                 </div>
                 <div className="bg-gray-50 rounded-lg p-4">
-                  <div className="text-2xl font-bold text-gray-900">{result.statistics.sections_detected.length}</div>
+                  <div className="text-2xl font-bold text-gray-900">{result.statistics.sections_detected}</div>
                   <div className="text-sm text-gray-600">Sections Detected</div>
                 </div>
               </div>
