@@ -55,6 +55,16 @@ app.include_router(ats_router)
 app.include_router(batch_router)
 app.include_router(template_router)
 
+@app.get("/")
+def root():
+    """Root endpoint - redirects to API docs"""
+    return {
+        "message": "HireScope Backend API",
+        "version": "2.0.0",
+        "docs": "/docs",
+        "health": "/api/health"
+    }
+
 @app.get("/api/health")
 def health():
     """Basic health check endpoint"""
