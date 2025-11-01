@@ -94,7 +94,8 @@ export default function Templates() {
       setError(null);
       
       // Call backend API to generate DOCX
-      const response = await fetch('http://localhost:8000/api/templates/generate', {
+      const apiUrl = import.meta.env.VITE_API_URL || 'http://localhost:8000';
+      const response = await fetch(`${apiUrl}/api/templates/generate`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',

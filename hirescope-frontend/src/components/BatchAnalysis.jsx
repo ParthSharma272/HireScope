@@ -75,7 +75,8 @@ export default function BatchAnalysis() {
       });
       formData.append("job_description", jobDescription);
 
-      const response = await fetch("http://localhost:8000/api/batch/analyze", {
+      const apiUrl = import.meta.env.VITE_API_URL || "http://localhost:8000";
+      const response = await fetch(`${apiUrl}/api/batch/analyze`, {
         method: "POST",
         body: formData,
       });

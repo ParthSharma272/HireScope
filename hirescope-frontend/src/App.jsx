@@ -99,8 +99,9 @@ function App() {
     formData.append("job_description", jobDescription);
 
     try {
+      const apiUrl = import.meta.env.VITE_API_URL || "http://localhost:8000";
       const res = await axios.post(
-        "http://127.0.0.1:8000/api/resume/upload",
+        `${apiUrl}/api/resume/upload`,
         formData,
         {
           headers: {

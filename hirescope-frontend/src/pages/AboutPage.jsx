@@ -39,8 +39,9 @@ export default function AboutPage() {
         { name: "Python 3.13", description: "Latest Python features" },
         { name: "Uvicorn", description: "Lightning-fast ASGI server" },
         { name: "PyPDF2", description: "PDF text extraction" },
-        { name: "python-docx", description: "DOCX parsing" },
+        { name: "python-docx", description: "DOCX parsing & generation" },
         { name: "pytesseract", description: "OCR for scanned PDFs" },
+        { name: "Redis", description: "High-performance caching layer" },
       ],
     },
     {
@@ -72,6 +73,12 @@ export default function AboutPage() {
       gradient: "from-blue-500 to-cyan-500",
     },
     {
+      title: "AI Template Generation",
+      description: "Create professional, ATS-optimized resume templates with industry-specific formatting",
+      icon: SparklesIcon,
+      gradient: "from-violet-500 to-purple-500",
+    },
+    {
       title: "ATS Simulation",
       description: "See exactly what Applicant Tracking Systems see in your resume",
       icon: ShieldCheckIcon,
@@ -89,50 +96,44 @@ export default function AboutPage() {
       icon: AcademicCapIcon,
       gradient: "from-indigo-500 to-purple-500",
     },
-    {
-      title: "Real-time Scoring",
-      description: "Get instant feedback with detailed metrics and suggestions",
-      icon: ChartBarIcon,
-      gradient: "from-yellow-500 to-orange-500",
-    },
   ];
 
   const architecture = [
     {
       step: "1",
-      title: "Document Upload",
-      description: "User uploads resume (PDF/DOCX) and job description",
-      details: "Supports drag-and-drop, multi-file uploads, and various document formats",
+      title: "Document Upload & Template Selection",
+      description: "Upload resume (PDF/DOCX) or generate from AI templates",
+      details: "Supports drag-and-drop, multi-file uploads, and 4 industry-specific template styles",
     },
     {
       step: "2",
-      title: "Text Extraction",
+      title: "Text Extraction & Parsing",
       description: "Advanced parsing with PyPDF2, python-docx, and OCR",
       details: "Handles scanned documents, complex layouts, and preserves formatting context",
     },
     {
       step: "3",
-      title: "AI Processing",
+      title: "AI Processing & Classification",
       description: "Semantic embeddings using Sentence Transformers",
-      details: "Converts text to 384-dimensional vectors for deep semantic understanding",
+      details: "Converts text to 384-dimensional vectors for deep semantic understanding and role detection",
     },
     {
       step: "4",
       title: "Multi-Factor Analysis",
       description: "Keyword matching, skill detection, and weighted scoring",
-      details: "Combines NLP, pattern matching, and ML for comprehensive evaluation",
+      details: "7 specialized analysis modules with ATS simulation and gap analysis",
     },
     {
       step: "5",
       title: "RAG-Enhanced Insights",
       description: "Retrieval-Augmented Generation for contextual suggestions",
-      details: "Uses vector similarity to find relevant improvements from knowledge base",
+      details: "60+ expert tips with before/after examples and priority-based recommendations",
     },
     {
       step: "6",
-      title: "Results Dashboard",
-      description: "Beautiful visualizations with actionable insights",
-      details: "Charts, scores, suggestions, and before/after comparisons",
+      title: "Results & Export",
+      description: "Comprehensive dashboard with multiple export options",
+      details: "Interactive charts, downloadable reports, and professional DOCX templates",
     },
   ];
 

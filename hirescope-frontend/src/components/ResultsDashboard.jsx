@@ -624,25 +624,46 @@ export default function ResultsDashboard({ result }) {
                   margin: [0.5, 0.5],
                   filename: `HireScope-Analysis-${new Date().toISOString().split('T')[0]}.pdf`,
                   image: { type: 'jpeg', quality: 0.98 },
-                  html2canvas: { scale: 2, logging: false, dpi: 192, letterRendering: true },
-                  jsPDF: { unit: 'in', format: 'letter', orientation: 'portrait' }
+                  html2canvas: { 
+                    scale: 2, 
+                    logging: false, 
+                    dpi: 192, 
+                    letterRendering: true,
+                    useCORS: true
+                  },
+                  jsPDF: { 
+                    unit: 'in', 
+                    format: 'letter', 
+                    orientation: 'portrait',
+                    compress: true
+                  }
                 };
                 
-                // Create a temporary element
+                // Create a temporary element with proper styling
                 const tempDiv = document.createElement('div');
                 tempDiv.innerHTML = htmlContent;
                 tempDiv.style.width = '8.5in';
                 tempDiv.style.padding = '0.5in';
+                tempDiv.style.background = 'white';
+                tempDiv.style.position = 'absolute';
+                tempDiv.style.left = '-9999px';
                 document.body.appendChild(tempDiv);
+                
+                // Small delay to ensure content is rendered
+                await new Promise(resolve => setTimeout(resolve, 100));
                 
                 // Generate PDF
                 await html2pdf().set(opt).from(tempDiv).save();
                 
-                // Clean up
-                document.body.removeChild(tempDiv);
+                // Clean up after a delay
+                setTimeout(() => {
+                  if (document.body.contains(tempDiv)) {
+                    document.body.removeChild(tempDiv);
+                  }
+                }, 500);
               } catch (error) {
                 console.error('Error generating PDF:', error);
-                alert('Error generating PDF. Please try again.');
+                alert(`Error generating PDF: ${error.message || 'Please try again.'}`);
               }
             }}
             className="px-6 py-3 bg-gradient-to-r from-purple-600 to-blue-600 text-white rounded-xl font-semibold hover:shadow-lg transform hover:scale-105 transition-all flex items-center gap-2"

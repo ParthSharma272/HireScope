@@ -71,8 +71,9 @@ export default function ATSSimulator() {
     formData.append('file', file);
 
     try {
+      const apiUrl = import.meta.env.VITE_API_URL || 'http://localhost:8000';
       const response = await axios.post(
-        'http://127.0.0.1:8000/api/ats/simulate',
+        `${apiUrl}/api/ats/simulate`,
         formData,
         {
           headers: { 'Content-Type': 'multipart/form-data' },

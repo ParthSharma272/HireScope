@@ -1,1 +1,16 @@
 venv/
+
+# Documentation and guide files
+*.md
+README.md
+readme.md
+README
+readme
+QUICKSTART*.md
+*_GUIDE.md
+*_SUMMARY.md
+*_SUGGESTIONS*.md
+*_IMPROVEMENTS.md
+*_IDEAS.md
+*_STATUS.md
+

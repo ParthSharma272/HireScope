@@ -30,10 +30,18 @@ async def global_exception_handler(request: Request, exc: Exception):
         content={"detail": f"Internal server error: {str(exc)}"}
     )
 
-# CORS - restrict in production
+# CORS - Allow frontend from Vercel and localhost
+origins = [
+    "http://localhost:5173",
+    "http://localhost:5174", 
+    "http://localhost:5175",
+    "https://*.vercel.app",  # All Vercel deployments
+    "https://hirescope-frontend.vercel.app",  # Production frontend
+]
+
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["*"],  # FIXME: restrict this in production
+    allow_origins=origins,
     allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],
