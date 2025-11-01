@@ -4,9 +4,33 @@ Quick comparison to help you choose the best hosting for your AI-powered backend
 
 ---
 
-## 🏆 Recommended: Railway
+## 🏆 Recommended: Hugging Face Spaces
 
-**Best for:** AI/ML applications with large models
+**Best for:** AI/ML applications, FREE FOREVER!
+
+### ✅ Pros
+- **16 GB RAM** (32x more than Render!)
+- **100% FREE FOREVER** (no trial expiration!)
+- **No credit card required**
+- **Perfect for ML models** - designed for AI apps
+- **Great community** - showcase your work
+- **Easy Git-based deployment**
+- **Public portfolio presence**
+
+### ❌ Cons
+- Spaces are public by default (need PRO for private)
+- Slightly slower cold starts (but no sleep)
+- Less control than traditional hosting
+
+### 💰 Pricing
+- **Free**: 16 GB RAM, unlimited time
+- **PRO**: $9/month for private spaces + extras
+
+---
+
+## 🚂 Alternative: Railway
+
+**Best for:** Easy setup, professional apps
 
 ### ✅ Pros
 - **8 GB RAM** (16x more than Render!)
@@ -95,15 +119,26 @@ Quick comparison to help you choose the best hosting for your AI-powered backend
 
 ### For HireScope:
 
-**🥇 1st Choice: Railway**
+**🥇 1st Choice: Hugging Face Spaces** ⭐
 ```
-✅ 8 GB RAM - perfect for ML models
-✅ No cold starts - instant responses
-✅ $5 free credits - try before you buy
-✅ Easy setup - 5 minutes to deploy
+✅ 16 GB RAM - perfect for ML models
+✅ FREE FOREVER - no expiration
+✅ No credit card needed
+✅ Easy setup - Git-based deployment
+✅ Great for portfolio - hosted on AI platform
 ```
 
-**🥈 2nd Choice: Google Cloud Run**
+**🥈 2nd Choice: Railway**
+**🥈 2nd Choice: Railway**
+```
+✅ 8 GB RAM - good for ML models
+✅ No cold starts - instant responses
+✅ $5 free credits - try before you buy
+⚠️ Expires after 30 days
+💰 $5/month after trial
+```
+
+**� 3rd Choice: Google Cloud Run**
 ```
 ✅ Up to 8 GB RAM
 ✅ Generous free tier
