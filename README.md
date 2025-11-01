@@ -8,6 +8,8 @@
 
 > **Transform your hiring process with cutting-edge AI/ML technology**
 
+<img width="1680" height="929" alt="Screenshot 2025-11-01 at 5 12 19 PM" src="https://github.com/user-attachments/assets/ce887cf6-2f68-485a-adab-722ccd6375ab" />
+
 HireScope is an advanced resume analysis platform that leverages state-of-the-art NLP, semantic embeddings, and machine learning to revolutionize how you evaluate candidates. Built with modern web technologies and AI models, it provides instant, actionable insights to help both job seekers optimize their resumes and recruiters find the perfect match.
 
 [🚀 Live Demo](#) • [📖 Documentation](#-table-of-contents) • [🐛 Report Bug](https://github.com/ParthSharma272/HireScope/issues) • [✨ Request Feature](https://github.com/ParthSharma272/HireScope/issues)
