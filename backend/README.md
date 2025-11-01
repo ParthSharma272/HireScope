@@ -4,7 +4,7 @@ emoji: 📄
 colorFrom: purple
 colorTo: blue
 sdk: docker
-app_file: dockerfile
+app_file: Dockerfile
 pinned: false
 ---
 
