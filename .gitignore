@@ -1,16 +1,21 @@
 venv/
+# Dependencies
+node_modules/
+venv/
+__pycache__/
 
-# Documentation and guide files
-*.md
-README.md
-readme.md
-README
-readme
-QUICKSTART*.md
-*_GUIDE.md
-*_SUMMARY.md
-*_SUGGESTIONS*.md
-*_IMPROVEMENTS.md
-*_IDEAS.md
-*_STATUS.md
+# Environment files
+.env
+.env.local
+.env.production.local
 
+# Build outputs
+dist/
+build/
+
+# OS files
+.DS_Store
+
+# IDE
+.vscode/
+.idea/
