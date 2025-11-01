@@ -91,11 +91,11 @@ git push origin master:main
    Plan: Free
    ```
 
-5. **Environment Variables**:
+5. **Environment Variables** (Optional):
    ```
-   PORT: 10000 (auto-set by Render)
    PYTHON_VERSION: 3.11.0
    ```
+   Note: PORT is automatically set by Render
 
 6. **Click "Create Web Service"**
 
