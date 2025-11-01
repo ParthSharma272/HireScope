@@ -37,6 +37,8 @@ origins = [
     "http://localhost:5175",
     "https://*.vercel.app",  # All Vercel deployments
     "https://hirescope-frontend.vercel.app",  # Production frontend
+    "https://*.hf.space",  # Hugging Face Spaces
+    "https://arcadian27-hirescope-backend.hf.space",  # HF backend
 ]
 
 app.add_middleware(
