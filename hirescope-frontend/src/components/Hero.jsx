@@ -11,7 +11,7 @@ export default function Hero({ onBuildResume }) {
             initial={{ opacity: 0, x: -20 }}
             animate={{ opacity: 1, x: 0 }}
             transition={{ duration: 0.6 }}
-            className="relative"
+            className="relative -mt-20"
           >
             {/* Background decorative elements */}
             <div className="absolute -top-10 -left-10 w-40 h-40 bg-gradient-to-br from-purple-400/20 to-pink-400/20 rounded-full blur-3xl"></div>
