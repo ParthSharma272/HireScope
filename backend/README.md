@@ -1,0 +1,39 @@
+---
+title: HireScope Backend
+emoji: 📄
+colorFrom: purple
+colorTo: blue
+sdk: docker
+app_port: 7860
+---
+
+# 🎯 HireScope Backend API
+
+AI-powered resume analysis using FastAPI, sentence-transformers, and spaCy.
+
+## Features
+- 🔍 Semantic resume analysis with AI embeddings
+- 📊 ATS compatibility scoring
+- 🤖 AI-powered template generation
+- 📦 Batch resume processing
+- 🎨 Professional DOCX report generation
+
+## Tech Stack
+- **Framework**: FastAPI
+- **ML Models**: sentence-transformers (all-mpnet-base-v2), spaCy
+- **Parser**: PyPDF2, python-docx, pdfplumber
+- **Port**: 7860 (Hugging Face default)
+
+## API Documentation
+Once running, visit `/docs` for interactive Swagger API documentation.
+
+## Endpoints
+- `GET /api/health` - Health check
+- `POST /api/analyze` - Resume analysis
+- `POST /api/batch/analyze` - Batch processing
+- `GET /api/templates` - AI templates
+- `POST /api/live/suggestions` - Real-time suggestions
+
+---
+
+**Developed with ❤️ for better hiring**
