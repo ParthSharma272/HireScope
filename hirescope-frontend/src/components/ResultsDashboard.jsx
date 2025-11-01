@@ -611,23 +611,46 @@ export default function ResultsDashboard({ result }) {
         >
           {/* Download PDF Button */}
           <button
-            onClick={() => {
-              const blob = new Blob([generatePDFContent(result)], { type: 'text/html' });
-              const url = URL.createObjectURL(blob);
-              const link = document.createElement('a');
-              link.href = url;
-              link.download = `HireScope-Analysis-${new Date().toISOString().split('T')[0]}.html`;
-              document.body.appendChild(link);
-              link.click();
-              document.body.removeChild(link);
-              URL.revokeObjectURL(url);
+            onClick={async () => {
+              try {
+                // Import html2pdf dynamically
+                const html2pdf = (await import('html2pdf.js')).default;
+                
+                // Generate HTML content
+                const htmlContent = generatePDFContent(result);
+                
+                // Convert to PDF and download
+                const opt = {
+                  margin: [0.5, 0.5],
+                  filename: `HireScope-Analysis-${new Date().toISOString().split('T')[0]}.pdf`,
+                  image: { type: 'jpeg', quality: 0.98 },
+                  html2canvas: { scale: 2, logging: false, dpi: 192, letterRendering: true },
+                  jsPDF: { unit: 'in', format: 'letter', orientation: 'portrait' }
+                };
+                
+                // Create a temporary element
+                const tempDiv = document.createElement('div');
+                tempDiv.innerHTML = htmlContent;
+                tempDiv.style.width = '8.5in';
+                tempDiv.style.padding = '0.5in';
+                document.body.appendChild(tempDiv);
+                
+                // Generate PDF
+                await html2pdf().set(opt).from(tempDiv).save();
+                
+                // Clean up
+                document.body.removeChild(tempDiv);
+              } catch (error) {
+                console.error('Error generating PDF:', error);
+                alert('Error generating PDF. Please try again.');
+              }
             }}
             className="px-6 py-3 bg-gradient-to-r from-purple-600 to-blue-600 text-white rounded-xl font-semibold hover:shadow-lg transform hover:scale-105 transition-all flex items-center gap-2"
           >
             <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 10v6m0 0l-3-3m3 3l3-3m2 8H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
             </svg>
-            Download Report
+            Download PDF Report
           </button>
 
           {/* Share Buttons */}

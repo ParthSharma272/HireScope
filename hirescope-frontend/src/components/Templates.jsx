@@ -85,10 +85,51 @@ const templates = [
 export default function Templates() {
   const [selectedTemplate, setSelectedTemplate] = useState(null);
   const [showPreview, setShowPreview] = useState(false);
+  const [downloading, setDownloading] = useState(null);
+  const [error, setError] = useState(null);
 
-  const handleDownload = (template) => {
-    // For now, show alert. In production, this would generate and download DOCX
-    alert(`Downloading ${template.name} template...\n\nThis would download an ATS-optimized DOCX file with:\n• Pre-formatted sections\n• Example bullet points\n• Placeholder text to customize\n• Professional styling`);
+  const handleDownload = async (template) => {
+    try {
+      setDownloading(template.id);
+      setError(null);
+      
+      // Call backend API to generate DOCX
+      const response = await fetch('http://localhost:8000/api/templates/generate', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          industry: template.id,
+          user_name: 'YOUR NAME',
+          email: 'email@example.com',
+          phone: '(123) 456-7890',
+          location: 'City, State',
+          use_ai_enhancements: true
+        })
+      });
+      
+      if (!response.ok) {
+        throw new Error(`Generation failed: ${response.statusText}`);
+      }
+      
+      // Download the DOCX file
+      const blob = await response.blob();
+      const url = window.URL.createObjectURL(blob);
+      const a = document.createElement('a');
+      a.href = url;
+      a.download = `${template.name.replace(/\s+/g, '_')}_Resume_Template.docx`;
+      document.body.appendChild(a);
+      a.click();
+      document.body.removeChild(a);
+      window.URL.revokeObjectURL(url);
+      
+      setDownloading(null);
+    } catch (err) {
+      console.error('Download failed:', err);
+      setError(`Failed to generate template: ${err.message}`);
+      setDownloading(null);
+    }
   };
 
   const getColorClasses = (color) => {
@@ -124,6 +165,31 @@ export default function Templates() {
   return (
     <section id="templates" className="py-20 px-4 bg-gradient-to-b from-gray-50 to-white">
       <div className="max-w-7xl mx-auto">
+        {/* Error Alert */}
+        {error && (
+          <motion.div
+            initial={{ opacity: 0, y: -20 }}
+            animate={{ opacity: 1, y: 0 }}
+            className="mb-6 bg-red-50 border border-red-200 rounded-lg p-4 flex items-start gap-3"
+          >
+            <svg className="w-6 h-6 text-red-600 flex-shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+            </svg>
+            <div className="flex-1">
+              <h3 className="text-red-800 font-semibold">Generation Failed</h3>
+              <p className="text-red-700 text-sm">{error}</p>
+            </div>
+            <button
+              onClick={() => setError(null)}
+              className="text-red-400 hover:text-red-600"
+            >
+              <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
+              </svg>
+            </button>
+          </motion.div>
+        )}
+        
         {/* Header */}
         <div className="text-center mb-16">
           <motion.div
@@ -211,10 +277,23 @@ export default function Templates() {
                     </button>
                     <button
                       onClick={() => handleDownload(template)}
-                      className={`flex-1 px-6 py-3 bg-gradient-to-r ${getColorClasses(template.color)} text-white rounded-lg font-semibold transition-all duration-200 flex items-center justify-center gap-2 shadow-md hover:shadow-lg transform hover:scale-105`}
+                      disabled={downloading === template.id}
+                      className={`flex-1 px-6 py-3 bg-gradient-to-r ${getColorClasses(template.color)} text-white rounded-lg font-semibold transition-all duration-200 flex items-center justify-center gap-2 shadow-md hover:shadow-lg transform hover:scale-105 disabled:opacity-50 disabled:cursor-not-allowed disabled:transform-none`}
                     >
-                      <ArrowDownTrayIcon className="w-5 h-5" />
-                      Download
+                      {downloading === template.id ? (
+                        <>
+                          <svg className="animate-spin h-5 w-5" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+                            <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle>
+                            <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+                          </svg>
+                          Generating...
+                        </>
+                      ) : (
+                        <>
+                          <ArrowDownTrayIcon className="w-5 h-5" />
+                          Download
+                        </>
+                      )}
                     </button>
                   </div>
                 </div>
@@ -231,27 +310,27 @@ export default function Templates() {
           viewport={{ once: true }}
           className="text-center bg-gradient-to-r from-purple-600 to-blue-600 rounded-2xl p-8 text-white"
         >
-          <BriefcaseIcon className="w-12 h-12 mx-auto mb-4" />
-          <h3 className="text-2xl font-bold mb-2">100% Free Forever</h3>
+          <SparklesIcon className="w-12 h-12 mx-auto mb-4" />
+          <h3 className="text-2xl font-bold mb-2">AI-Powered Template Generation</h3>
           <p className="text-purple-100 mb-6 max-w-2xl mx-auto">
-            All templates are completely free. Download as many as you need and customize them for each application.
+            Intelligent DOCX generation using SentenceTransformers for industry classification, SpaCy NER for skill extraction, and T5 models for content enhancement.
           </p>
           <div className="flex flex-wrap justify-center gap-4 text-sm">
             <div className="flex items-center gap-2">
               <CheckCircleIcon className="w-5 h-5" />
-              <span>ATS-Optimized</span>
+              <span>Semantic Classification</span>
             </div>
             <div className="flex items-center gap-2">
               <CheckCircleIcon className="w-5 h-5" />
-              <span>Professional Design</span>
+              <span>NER-Based Extraction</span>
             </div>
             <div className="flex items-center gap-2">
               <CheckCircleIcon className="w-5 h-5" />
-              <span>Easy to Customize</span>
+              <span>T5 Enhancement AI</span>
             </div>
             <div className="flex items-center gap-2">
               <CheckCircleIcon className="w-5 h-5" />
-              <span>DOCX Format</span>
+              <span>python-docx Engine</span>
             </div>
           </div>
         </motion.div>

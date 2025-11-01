@@ -13,33 +13,33 @@ export default function About() {
   const features = [
     {
       icon: SparklesIcon,
-      title: "Free forever",
-      description: "Your first resume analysis is 100% free forever. No strings attached. No hidden fees, no watermarks. Download it as a high-quality report whenever you need."
+      title: "Semantic Understanding",
+      description: "Built on SentenceTransformer (all-MiniLM-L6-v2) with 384-dimensional embeddings. Uses cosine similarity with 0.7 threshold for intelligent section deduplication and 0.4 threshold for semantic validation."
     },
     {
       icon: ShieldCheckIcon,
-      title: "Secure your data",
-      description: "We never sell your data. Period. We're GDPR-compliant, and you can delete your data anytime you want. Your data, your control."
+      title: "RAG Architecture",
+      description: "Retrieval-Augmented Generation engine with vector similarity search. Dynamic context retrieval combines embedding-based matching with real-time LLM inference for contextual suggestions."
     },
     {
       icon: DocumentDuplicateIcon,
-      title: "Multiple analyses",
-      description: "Analyze your resume for different jobs, regions, or industries with just a click. Test different versions and see what works best."
+      title: "Multi-Stage Pipeline",
+      description: "Parse → Extract → Embed → Match → Score. Advanced text preprocessing with intelligent URL extraction, social platform detection (16 platforms), and heuristic section filtering (caps/title case validation)."
     },
     {
       icon: LightBulbIcon,
-      title: "Expert advice at your fingertips",
-      description: "Benefit from valuable AI-powered insights while you optimize. Our comprehensive scoring system helps you understand exactly what to improve."
+      title: "Weighted Scoring System",
+      description: "Multi-dimensional evaluation: keyword overlap (TF-IDF weighted), semantic similarity, section completeness, and skill detection. Ensemble model aggregates scores for comprehensive resume analysis."
     },
     {
       icon: ChartBarIcon,
-      title: "ATS-ready Resume",
-      description: "Many employers use scanners to spot keywords in resumes. With HireScope, your analysis is ready for scanners to read and optimized for success."
+      title: "Intelligent Detection",
+      description: "No hardcoded lists. LLM-based section validation with semantic embeddings compares candidate headers against learned section patterns. Context-aware content validation ensures accurate structure detection."
     },
     {
       icon: CheckCircleIcon,
-      title: "Keyword optimization",
-      description: "Get detailed keyword matching against job descriptions. See exactly which skills you're highlighting and which ones you're missing."
+      title: "FastAPI + React Stack",
+      description: "Async FastAPI 2.0 backend with Pydantic schemas. React 19 frontend with Framer Motion animations. Full-stack TypeScript/Python integration with RESTful API design and real-time PDF generation."
     }
   ];
 
@@ -55,10 +55,10 @@ export default function About() {
           className="text-center mb-16"
         >
           <h2 className="text-4xl md:text-5xl font-bold text-gray-900 mb-4">
-            Everything you need, made simple
+            Advanced AI/ML Architecture
           </h2>
           <p className="text-xl text-gray-600 max-w-3xl mx-auto">
-            No hidden fees, no watermarks, no surprises. Your data stays private, your first analysis is free forever, and you can analyze, edit, and improve it anytime.
+            Production-ready machine learning pipeline combining transformer models, semantic embeddings, and intelligent parsing. Built with FastAPI async architecture and React 19 for real-time resume-JD matching.
           </p>
         </motion.div>
 

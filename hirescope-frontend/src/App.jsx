@@ -78,6 +78,17 @@ function App() {
     window.scrollTo({ top: 0, behavior: 'smooth' });
   };
 
+  const goHome = () => {
+    setShowAnalyzer(false);
+    setShowTemplates(false);
+    setShowATS(false);
+    setShowBatch(false);
+    setShowAboutPage(false);
+    setResult(null);
+    setError(null);
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  };
+
   const handleUpload = async (file, jobDescription) => {
     setLoading(true);
     setError(null);
@@ -136,16 +147,8 @@ function App() {
     <div className="min-h-screen">
       {/* Header */}
       <Header 
-        onLogoClick={() => {
-          setResult(null);
-          setError(null);
-          setShowAnalyzer(false);
-          setShowTemplates(false);
-          setShowATS(false);
-          setShowBatch(false);
-          setShowAboutPage(false);
-          window.scrollTo({ top: 0, behavior: 'smooth' });
-        }}
+        onLogoClick={goHome}
+        onResumeMatchClick={openAnalyzer}
         onAboutClick={openAboutPage}
         onTemplatesClick={openTemplates}
         onATSClick={openATS}

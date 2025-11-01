@@ -6,6 +6,10 @@ export default {
   ],
   theme: {
     extend: {
+      fontFamily: {
+        sans: ['"Roboto Mono"', 'monospace'],
+        mono: ['"Roboto Mono"', 'monospace'],
+      },
       colors: {
         hirescope: {
           blue: "#3b82f6",

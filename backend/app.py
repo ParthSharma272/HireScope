@@ -8,6 +8,7 @@ from routes.resume_routes import router as resume_router
 from routes.live_routes import router as live_router
 from routes.ats_routes import router as ats_router
 from routes.batch_routes import router as batch_router
+from routes.template_routes import router as template_router
 from utils.cache import get_cache_stats, clear_cache
 
 # Configure logging
@@ -42,6 +43,7 @@ app.include_router(resume_router)
 app.include_router(live_router)
 app.include_router(ats_router)
 app.include_router(batch_router)
+app.include_router(template_router)
 
 @app.get("/api/health")
 def health():

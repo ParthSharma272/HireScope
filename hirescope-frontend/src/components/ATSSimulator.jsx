@@ -9,7 +9,9 @@ import {
   DocumentTextIcon,
   EyeIcon,
   BeakerIcon,
-  ChartBarIcon
+  ChartBarIcon,
+  ChevronDownIcon,
+  ChevronUpIcon
 } from '@heroicons/react/24/outline';
 
 export default function ATSSimulator() {
@@ -18,6 +20,19 @@ export default function ATSSimulator() {
   const [result, setResult] = useState(null);
   const [error, setError] = useState(null);
   const [view, setView] = useState('original'); // 'original' or 'ats'
+  const [expandedSections, setExpandedSections] = useState({
+    sections: false,
+    contacts: false,
+    socials: false,
+    specialChars: false
+  });
+
+  const toggleSection = (section) => {
+    setExpandedSections(prev => ({
+      ...prev,
+      [section]: !prev[section]
+    }));
+  };
 
   const handleFileChange = (e) => {
     const selectedFile = e.target.files[0];
@@ -214,25 +229,213 @@ export default function ATSSimulator() {
                 </div>
               </div>
 
-              {/* Statistics */}
+              {/* Statistics - Reorganized into 4 Categories */}
               <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mt-6">
+                {/* 1. Lines Detected - Static */}
                 <div className="bg-gray-50 rounded-lg p-4">
                   <div className="text-2xl font-bold text-gray-900">{result.statistics.total_lines}</div>
                   <div className="text-sm text-gray-600">Lines Detected</div>
                 </div>
-                <div className="bg-gray-50 rounded-lg p-4">
-                  <div className="text-2xl font-bold text-gray-900">{result.statistics.emails_found}</div>
-                  <div className="text-sm text-gray-600">Email(s) Found</div>
-                </div>
-                <div className="bg-gray-50 rounded-lg p-4">
-                  <div className="text-2xl font-bold text-gray-900">{result.statistics.phones_found}</div>
-                  <div className="text-sm text-gray-600">Phone(s) Found</div>
-                </div>
-                <div className="bg-gray-50 rounded-lg p-4">
-                  <div className="text-2xl font-bold text-gray-900">{result.statistics.sections_detected}</div>
-                  <div className="text-sm text-gray-600">Sections Detected</div>
-                </div>
+                
+                {/* 2. Socials - Clickable */}
+                <button
+                  onClick={() => toggleSection('socials')}
+                  className="bg-blue-50 rounded-lg p-4 hover:bg-blue-100 transition-colors text-left cursor-pointer border border-blue-100"
+                >
+                  <div className="flex items-center justify-between">
+                    <div>
+                      <div className="text-2xl font-bold text-blue-900">
+                        {result.statistics.social_urls?.length || 0}
+                      </div>
+                      <div className="text-sm text-blue-700">Social Links</div>
+                    </div>
+                    {result.statistics.social_urls && result.statistics.social_urls.length > 0 && (
+                      <ChevronDownIcon className={`w-5 h-5 text-blue-400 transition-transform ${expandedSections.socials ? 'rotate-180' : ''}`} />
+                    )}
+                  </div>
+                </button>
+                
+                {/* 3. Contacts - Clickable */}
+                <button
+                  onClick={() => toggleSection('contacts')}
+                  className="bg-green-50 rounded-lg p-4 hover:bg-green-100 transition-colors text-left cursor-pointer border border-green-100"
+                >
+                  <div className="flex items-center justify-between">
+                    <div>
+                      <div className="text-2xl font-bold text-green-900">
+                        {result.statistics.emails_found + result.statistics.phones_found}
+                      </div>
+                      <div className="text-sm text-green-700">Contact Details</div>
+                    </div>
+                    {(result.statistics.emails_found + result.statistics.phones_found) > 0 && (
+                      <ChevronDownIcon className={`w-5 h-5 text-green-400 transition-transform ${expandedSections.contacts ? 'rotate-180' : ''}`} />
+                    )}
+                  </div>
+                </button>
+                
+                {/* 4. Resume Sections - Clickable */}
+                <button
+                  onClick={() => toggleSection('sections')}
+                  className="bg-purple-50 rounded-lg p-4 hover:bg-purple-100 transition-colors text-left cursor-pointer border border-purple-100"
+                >
+                  <div className="flex items-center justify-between">
+                    <div>
+                      <div className="text-2xl font-bold text-purple-900">{result.statistics.sections_detected}</div>
+                      <div className="text-sm text-purple-700">Resume Sections</div>
+                    </div>
+                    {result.statistics.sections_detected > 0 && (
+                      <ChevronDownIcon className={`w-5 h-5 text-purple-400 transition-transform ${expandedSections.sections ? 'rotate-180' : ''}`} />
+                    )}
+                  </div>
+                </button>
               </div>
+
+              {/* Expandable Details */}
+              <AnimatePresence>
+                {/* 1. Resume Sections List */}
+                {expandedSections.sections && result.statistics.sections_list && result.statistics.sections_list.length > 0 && (
+                  <motion.div
+                    initial={{ opacity: 0, height: 0 }}
+                    animate={{ opacity: 1, height: 'auto' }}
+                    exit={{ opacity: 0, height: 0 }}
+                    className="mt-4 bg-purple-50 rounded-lg p-4 border border-purple-200"
+                  >
+                    <h4 className="font-semibold text-purple-900 mb-3 flex items-center gap-2">
+                      <DocumentTextIcon className="w-5 h-5" />
+                      Resume Sections Detected
+                    </h4>
+                    <p className="text-sm text-purple-700 mb-3">
+                      Your resume is organized into the following sections:
+                    </p>
+                    <div className="flex flex-wrap gap-2">
+                      {result.statistics.sections_list.map((section, idx) => (
+                        <span
+                          key={idx}
+                          className="px-3 py-1 bg-white text-purple-700 rounded-full text-sm font-medium border border-purple-200 capitalize"
+                        >
+                          {section}
+                        </span>
+                      ))}
+                    </div>
+                  </motion.div>
+                )}
+
+                {/* 2. Social Links */}
+                {expandedSections.socials && (
+                  <motion.div
+                    initial={{ opacity: 0, height: 0 }}
+                    animate={{ opacity: 1, height: 'auto' }}
+                    exit={{ opacity: 0, height: 0 }}
+                    className="mt-4 bg-blue-50 rounded-lg p-4 border border-blue-200"
+                  >
+                    <h4 className="font-semibold text-blue-900 mb-3 flex items-center gap-2">
+                      <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13.828 10.172a4 4 0 00-5.656 0l-4 4a4 4 0 105.656 5.656l1.102-1.101m-.758-4.899a4 4 0 005.656 0l4-4a4 4 0 00-5.656-5.656l-1.1 1.1" />
+                      </svg>
+                      Social Media & Portfolio Links
+                    </h4>
+                    <div className="space-y-2">
+                      {(() => {
+                        const socialUrls = result.statistics.social_urls || [];
+                        
+                        if (socialUrls.length === 0) {
+                          return <p className="text-blue-700 text-sm">No social media links detected</p>;
+                        }
+                        
+                        return socialUrls.map((url, idx) => {
+                          let platform = 'Website';
+                          let icon = '🌐';
+                          const urlLower = url.toLowerCase();
+                          
+                          if (urlLower.includes('linkedin')) { platform = 'LinkedIn'; icon = '💼'; }
+                          else if (urlLower.includes('github')) { platform = 'GitHub'; icon = '💻'; }
+                          else if (urlLower.includes('twitter')) { platform = 'Twitter'; icon = '🐦'; }
+                          else if (urlLower.includes('facebook')) { platform = 'Facebook'; icon = '👤'; }
+                          else if (urlLower.includes('instagram')) { platform = 'Instagram'; icon = '📸'; }
+                          else if (urlLower.includes('portfolio')) { platform = 'Portfolio'; icon = '🎨'; }
+                          else if (urlLower.includes('behance')) { platform = 'Behance'; icon = '🎨'; }
+                          else if (urlLower.includes('dribbble')) { platform = 'Dribbble'; icon = '🎨'; }
+                          else if (urlLower.includes('medium')) { platform = 'Medium'; icon = '📝'; }
+                          else if (urlLower.includes('stackoverflow')) { platform = 'Stack Overflow'; icon = '💬'; }
+                          else if (urlLower.includes('gitlab')) { platform = 'GitLab'; icon = '🦊'; }
+                          
+                          return (
+                            <div key={idx} className="flex items-center gap-3 px-3 py-2 bg-white text-blue-700 rounded-md border border-blue-200">
+                              <span className="text-lg">{icon}</span>
+                              <div className="flex-1">
+                                <div className="text-xs font-semibold text-blue-900">{platform}</div>
+                                <div className="text-sm font-mono break-all">{url}</div>
+                              </div>
+                            </div>
+                          );
+                        });
+                      })()}
+                    </div>
+                  </motion.div>
+                )}
+
+                {/* 3. Contact Details */}
+                {expandedSections.contacts && result.original_text && (
+                  <motion.div
+                    initial={{ opacity: 0, height: 0 }}
+                    animate={{ opacity: 1, height: 'auto' }}
+                    exit={{ opacity: 0, height: 0 }}
+                    className="mt-4 bg-green-50 rounded-lg p-4 border border-green-200"
+                  >
+                    <h4 className="font-semibold text-green-900 mb-3 flex items-center gap-2">
+                      <CheckCircleIcon className="w-5 h-5" />
+                      Contact Information Found
+                    </h4>
+                    <div className="space-y-3">
+                      {/* Emails */}
+                      {(() => {
+                        const emails = result.original_text.match(/\b[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Z|a-z]{2,}\b/g) || [];
+                        return emails.length > 0 && (
+                          <div>
+                            <div className="text-xs font-semibold text-green-900 mb-1 flex items-center gap-1">
+                              <span>📧</span> Email Address{emails.length > 1 ? 'es' : ''}
+                            </div>
+                            <div className="space-y-1">
+                              {emails.map((email, idx) => (
+                                <div key={idx} className="px-3 py-2 bg-white text-green-700 rounded-md text-sm font-mono border border-green-200">
+                                  {email}
+                                </div>
+                              ))}
+                            </div>
+                          </div>
+                        );
+                      })()}
+                      
+                      {/* Phones */}
+                      {(() => {
+                        const phones = result.original_text.match(/\(?\d{3}\)?[-.\s]?\d{3}[-.\s]?\d{4}/g) || [];
+                        return phones.length > 0 && (
+                          <div>
+                            <div className="text-xs font-semibold text-green-900 mb-1 flex items-center gap-1">
+                              <span>📞</span> Phone Number{phones.length > 1 ? 's' : ''}
+                            </div>
+                            <div className="space-y-1">
+                              {phones.map((phone, idx) => (
+                                <div key={idx} className="px-3 py-2 bg-white text-green-700 rounded-md text-sm font-mono border border-green-200">
+                                  {phone}
+                                </div>
+                              ))}
+                            </div>
+                          </div>
+                        );
+                      })()}
+                      
+                      {(() => {
+                        const emails = result.original_text.match(/\b[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Z|a-z]{2,}\b/g) || [];
+                        const phones = result.original_text.match(/\(?\d{3}\)?[-.\s]?\d{3}[-.\s]?\d{4}/g) || [];
+                        return (emails.length === 0 && phones.length === 0) && (
+                          <p className="text-green-700 text-sm">No contact information detected</p>
+                        );
+                      })()}
+                    </div>
+                  </motion.div>
+                )}
+              </AnimatePresence>
             </div>
 
             {/* Issues */}
@@ -241,20 +444,75 @@ export default function ATSSimulator() {
                 <h3 className="text-2xl font-bold text-gray-900 mb-6">Parsing Issues Detected</h3>
                 <div className="space-y-4">
                   {result.issues.map((issue, idx) => (
-                    <div
-                      key={idx}
-                      className={`p-4 rounded-lg border ${getSeverityColor(issue.severity)}`}
-                    >
-                      <div className="flex items-start gap-3">
-                        <ExclamationTriangleIcon className="w-6 h-6 flex-shrink-0 mt-0.5" />
-                        <div className="flex-1">
-                          <h4 className="font-semibold mb-1">{issue.message}</h4>
-                          <p className="text-sm opacity-90">💡 {issue.suggestion}</p>
+                    <div key={idx}>
+                      <div
+                        className={`p-4 rounded-lg border ${getSeverityColor(issue.severity)}`}
+                      >
+                        <div className="flex items-start gap-3">
+                          <ExclamationTriangleIcon className="w-6 h-6 flex-shrink-0 mt-0.5" />
+                          <div className="flex-1">
+                            <h4 className="font-semibold mb-1">{issue.message}</h4>
+                            <p className="text-sm opacity-90">💡 {issue.suggestion}</p>
+                          </div>
+                          <span className="text-xs font-bold uppercase px-2 py-1 rounded">
+                            {issue.severity}
+                          </span>
                         </div>
-                        <span className="text-xs font-bold uppercase px-2 py-1 rounded">
-                          {issue.severity}
-                        </span>
                       </div>
+                      
+                      {/* Show special characters details if this is a special_characters issue */}
+                      {issue.type === 'special_characters' && result.original_text && (
+                        <div className="mt-2 ml-9">
+                          <button
+                            onClick={() => toggleSection('specialChars')}
+                            className="text-sm text-blue-600 hover:text-blue-700 font-medium flex items-center gap-1"
+                          >
+                            {expandedSections.specialChars ? 'Hide' : 'Show'} special characters found
+                            <ChevronDownIcon className={`w-4 h-4 transition-transform ${expandedSections.specialChars ? 'rotate-180' : ''}`} />
+                          </button>
+                          
+                          <AnimatePresence>
+                            {expandedSections.specialChars && (
+                              <motion.div
+                                initial={{ opacity: 0, height: 0 }}
+                                animate={{ opacity: 1, height: 'auto' }}
+                                exit={{ opacity: 0, height: 0 }}
+                                className="mt-2 bg-yellow-50 rounded-lg p-3 border border-yellow-200"
+                              >
+                                <div className="flex flex-wrap gap-2">
+                                  {(() => {
+                                    const specialChars = result.original_text.match(/[^\w\s\-.,@()\[\]:/;'"!?#%&+=<>|\n\r\t]/g) || [];
+                                    const uniqueChars = [...new Set(specialChars)];
+                                    return uniqueChars.length > 0 ? (
+                                      <>
+                                        <p className="w-full text-xs text-yellow-700 mb-2">
+                                          Found {specialChars.length} special character(s) - {uniqueChars.length} unique:
+                                        </p>
+                                        {uniqueChars.slice(0, 30).map((char, idx) => (
+                                          <span
+                                            key={idx}
+                                            className="px-2 py-1 bg-white text-yellow-700 rounded text-sm font-mono border border-yellow-300"
+                                            title={`Character code: ${char.charCodeAt(0)}`}
+                                          >
+                                            {char}
+                                          </span>
+                                        ))}
+                                        {uniqueChars.length > 30 && (
+                                          <span className="text-xs text-yellow-600 italic">
+                                            ...and {uniqueChars.length - 30} more
+                                          </span>
+                                        )}
+                                      </>
+                                    ) : (
+                                      <p className="text-yellow-700 text-sm">No problematic special characters found</p>
+                                    );
+                                  })()}
+                                </div>
+                              </motion.div>
+                            )}
+                          </AnimatePresence>
+                        </div>
+                      )}
                     </div>
                   ))}
                 </div>

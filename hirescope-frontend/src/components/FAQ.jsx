@@ -7,44 +7,44 @@ export default function FAQ() {
 
   const faqs = [
     {
-      question: "Is HireScope really free?",
-      answer: "Yes, absolutely! Your first resume analysis is 100% free forever. You can analyze your resume, download the report, and get comprehensive insights without paying a cent. No hidden fees, no credit card required, no watermarks."
+      question: "How does semantic section detection work?",
+      answer: "We use SentenceTransformer (all-MiniLM-L6-v2) to generate 384-dimensional embeddings for each candidate header. Heuristic filtering identifies potential sections (all caps/title case, 1-5 words, has content). Then, cosine similarity compares candidates against reference section embeddings with a 0.4 threshold. Sections scoring above this are validated as true resume sections."
     },
     {
-      question: "How does the ATS scoring work?",
-      answer: "Our ATS (Applicant Tracking System) scoring analyzes your resume the same way employer software does. We check for keyword matches, formatting compatibility, section organization, and readability. You'll get a score out of 100 and specific recommendations on what to improve."
+      question: "What embedding model powers the matching?",
+      answer: "HireScope uses SentenceTransformer's all-MiniLM-L6-v2 model, a lightweight transformer optimized for semantic similarity tasks. It generates 384-dimensional dense vectors that capture semantic meaning. This enables intelligent keyword matching beyond exact text matching - understanding that 'machine learning' and 'ML' are semantically equivalent."
     },
     {
-      question: "What file formats do you support?",
-      answer: "We support PDF and DOCX (Microsoft Word) file formats. These are the most common resume formats and ensure the best parsing accuracy. Simply upload your file and we'll extract the text for analysis."
+      question: "How is cosine similarity applied?",
+      answer: "Cosine similarity measures the angle between two embedding vectors. For section deduplication, we use a 0.7 threshold - sections with similarity > 0.7 are merged (e.g., 'Experience' and 'Work Experience'). For section validation, a 0.4 threshold determines if a candidate header is semantically similar to known section patterns. This eliminates hardcoded section lists."
     },
     {
-      question: "Is my data secure?",
-      answer: "Absolutely. We take data security seriously. Your resume data is never sold to third parties. We're GDPR-compliant and you can delete your data anytime. All data transmission is encrypted, and we don't store your resume longer than necessary."
+      question: "What is the RAG architecture?",
+      answer: "Retrieval-Augmented Generation (RAG) combines vector similarity search with LLM inference. When analyzing a resume, we retrieve relevant context using embedding similarity, then feed this to a language model for contextualized suggestions. The embedding store acts as a knowledge base, enabling dynamic, context-aware recommendations beyond static rules."
     },
     {
-      question: "How accurate is the keyword matching?",
-      answer: "Our keyword matching uses advanced NLP (Natural Language Processing) and semantic analysis. We don't just look for exact word matches - we understand synonyms and related concepts. For example, we know that 'machine learning' relates to 'ML', 'AI', and 'predictive modeling'."
+      question: "How are weighted scores calculated?",
+      answer: "Our ensemble scoring system evaluates multiple dimensions: (1) Keyword overlap with TF-IDF weighting prioritizes rare, relevant terms. (2) Semantic similarity using embedding cosine distance. (3) Section completeness checks for required headers. (4) Skill detection matches against tech/domain-specific vocabularies. Scores are normalized and aggregated with learned weights for a final 0-100 score."
     },
     {
-      question: "Can I analyze multiple resumes?",
-      answer: "Yes! You can analyze your resume multiple times with different job descriptions. This is perfect for tailoring your resume to specific roles or comparing different versions to see which performs better."
+      question: "What makes intelligent URL extraction work?",
+      answer: "Enhanced regex pattern matches URLs with/without protocols: `(?:https?://)?(?:www\\.)?[a-zA-Z0-9][-a-zA-Z0-9@:%._\\+~#=]{1,256}\\.[a-zA-Z]{2,6}\\b`. After extraction, we normalize protocols (add https:// if missing), deduplicate with order preservation, and categorize by domain patterns. 16 social platforms are detected (GitHub, LinkedIn, Twitter, etc.) and separated from other URLs for transparency."
     },
     {
-      question: "What makes HireScope different from other resume analyzers?",
-      answer: "HireScope combines multiple analysis methods: structural scoring, keyword matching, semantic relevance using AI embeddings, readability analysis, and tone assessment. We also provide weighted keyword matching that prioritizes critical skills, competitive analysis, and actionable recommendations - not just a score."
+      question: "Why no hardcoded section lists?",
+      answer: "Hardcoded lists fail on resume variations (e.g., 'Work Experience' vs 'Professional Background'). Our LLM-based approach uses semantic understanding: candidate headers are embedded and compared against learned section patterns. Only headers with sufficient semantic similarity (>0.4) and proper formatting (caps/title case, content validation) are accepted. This generalizes to resume formats not seen during development."
     },
     {
-      question: "Do you provide resume writing or editing services?",
-      answer: "HireScope is an analysis tool, not a writing service. We provide detailed insights and recommendations on what to improve, but you make the changes yourself. This approach empowers you to learn what makes a great resume and apply those principles to future applications."
+      question: "What is the FastAPI + React architecture?",
+      answer: "Backend: FastAPI 2.0 with async/await for non-blocking I/O, Pydantic schemas for type validation, RESTful endpoints (/api/v2/analyze, /batch, /ats). Frontend: React 19 with Vite bundler, Framer Motion for animations, html2pdf.js for client-side PDF generation. Communication via fetch API with JSON payloads. Separation enables independent scaling and technology choices."
     },
     {
-      question: "How long does the analysis take?",
-      answer: "Most analyses complete in 10-30 seconds, depending on the length of your resume and job description. Our system uses advanced caching and lazy loading to ensure fast processing times."
+      question: "How does the multi-stage pipeline work?",
+      answer: "1) Parse: Extract text from PDF/DOCX using pypdf2/python-docx. 2) Extract: Regex-based URL/email/phone extraction with intelligent categorization. 3) Embed: Convert text chunks to 384-d vectors using SentenceTransformer. 4) Match: Cosine similarity between resume embeddings and JD embeddings. 5) Score: Weighted ensemble of keyword, semantic, section, and skill scores. Each stage is independently testable and optimizable."
     },
     {
-      question: "Can I share my results?",
-      answer: "Yes! After your analysis completes, you can download a comprehensive HTML report, share your score via WhatsApp or email, and even save it for later comparison. This makes it easy to track your progress or get feedback from mentors."
+      question: "Can I inspect the ML model details?",
+      answer: "Yes! The backend uses open-source models from HuggingFace: sentence-transformers/all-MiniLM-L6-v2 (embeddings), FastAPI for API layer, and custom scoring logic in Python. All code is available on GitHub. Model parameters, similarity thresholds, and scoring weights are configurable. You can experiment with different transformers (e.g., all-mpnet-base-v2) by modifying the embedding_store.py configuration."
     }
   ];
 
@@ -60,10 +60,10 @@ export default function FAQ() {
           className="text-center mb-12"
         >
           <h2 className="text-4xl md:text-5xl font-bold text-gray-900 mb-4">
-            Frequently Asked Questions
+            Technical Deep Dive
           </h2>
           <p className="text-xl text-gray-600">
-            Everything you need to know about HireScope
+            Understanding the AI/ML architecture behind HireScope
           </p>
         </motion.div>
 
@@ -118,14 +118,14 @@ export default function FAQ() {
           viewport={{ once: true }}
           className="text-center mt-12"
         >
-          <p className="text-gray-600 mb-6">Still have questions?</p>
+          <p className="text-gray-600 mb-6">Want to contribute or learn more?</p>
           <a
-            href="https://github.com/ParthSharma272/HireScope/issues"
+            href="https://github.com/ParthSharma272/HireScope"
             target="_blank"
             rel="noopener noreferrer"
             className="inline-flex items-center gap-2 text-purple-600 hover:text-purple-700 font-semibold"
           >
-            Ask on GitHub
+            Explore the Source Code
             <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M14 5l7 7m0 0l-7 7m7-7H3" />
             </svg>
