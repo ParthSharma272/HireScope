@@ -11,7 +11,7 @@ export default function Hero({ onBuildResume }) {
             initial={{ opacity: 0, x: -20 }}
             animate={{ opacity: 1, x: 0 }}
             transition={{ duration: 0.6 }}
-            className="relative md:-mt-20 order-2 md:order-1"
+            className="relative md:-mt-20 order-1"
           >
             {/* Background decorative elements */}
             <div className="absolute -top-10 -left-10 w-32 h-32 md:w-40 md:h-40 bg-gradient-to-br from-purple-400/20 to-pink-400/20 rounded-full blur-3xl"></div>
@@ -186,7 +186,7 @@ export default function Hero({ onBuildResume }) {
             initial={{ opacity: 0, x: 20 }}
             animate={{ opacity: 1, x: 0 }}
             transition={{ duration: 0.6, delay: 0.2 }}
-            className="relative order-1 md:order-2"
+            className="relative order-2"
           >
             {/* Main Resume Card */}
             <div className="relative bg-white rounded-3xl shadow-2xl overflow-hidden border border-gray-100">
