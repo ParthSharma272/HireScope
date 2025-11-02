@@ -3,8 +3,8 @@ import { motion } from "framer-motion";
 
 export default function Hero({ onBuildResume }) {
   return (
-    <div className="min-h-screen bg-gradient-to-b from-gray-50 to-white flex items-center py-0 md:py-0">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 w-full pt-20 md:pt-0 pb-8">
+    <div className="min-h-screen bg-gradient-to-b from-gray-50 to-white flex items-center py-4 md:py-0">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 w-full pt-25 md:pt-0 pb-8">
         <div className="grid grid-cols-1 md:grid-cols-2 gap-8 md:gap-12 items-center">
           {/* Left Column - Enhanced Tagline and CTA */}
           <motion.div
