@@ -44,20 +44,20 @@ export default function Footer() {
   ];
 
   return (
-    <footer className="bg-gray-900 text-white py-12">
+    <footer className="bg-gray-900 text-white py-8 md:py-12">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="grid md:grid-cols-3 gap-12 mb-8">
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-8 md:gap-12 mb-6 md:mb-8">
           {/* Brand Column */}
           <div>
             <div className="flex items-center gap-2 mb-4">
-              <div className="w-8 h-8 bg-gradient-to-br from-purple-600 to-blue-600 rounded-lg flex items-center justify-center">
-                <svg className="w-5 h-5 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2.5">
+              <div className="w-7 h-7 md:w-8 md:h-8 bg-gradient-to-br from-purple-600 to-blue-600 rounded-lg flex items-center justify-center">
+                <svg className="w-4 h-4 md:w-5 md:h-5 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2.5">
                   <path strokeLinecap="round" strokeLinejoin="round" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
                 </svg>
               </div>
-              <span className="text-xl font-bold">HireScope</span>
+              <span className="text-lg md:text-xl font-bold">HireScope</span>
             </div>
-            <p className="text-gray-400 leading-relaxed mb-4">
+            <p className="text-sm md:text-base text-gray-400 leading-relaxed mb-4">
               We are developers passionate about helping job seekers worldwide. Our mission: Empower your job search journey with AI-powered resume analysis.
             </p>
             <p className="text-gray-400 text-sm">
@@ -67,13 +67,13 @@ export default function Footer() {
 
           {/* Quick Links */}
           <div>
-            <h3 className="text-lg font-semibold mb-4">Quick Links</h3>
-            <ul className="space-y-3">
+            <h3 className="text-base md:text-lg font-semibold mb-3 md:mb-4">Quick Links</h3>
+            <ul className="space-y-2 md:space-y-3">
               {quickLinks.map((link) => (
                 <li key={link.name}>
                   <a
                     href={link.href}
-                    className="text-gray-400 hover:text-white transition-colors"
+                    className="text-sm md:text-base text-gray-400 hover:text-white transition-colors"
                   >
                     {link.name}
                   </a>
@@ -84,8 +84,8 @@ export default function Footer() {
 
           {/* Connect */}
           <div>
-            <h3 className="text-lg font-semibold mb-4">Connect with me</h3>
-            <div className="flex flex-wrap gap-4">
+            <h3 className="text-base md:text-lg font-semibold mb-3 md:mb-4">Connect with me</h3>
+            <div className="flex flex-wrap gap-3 md:gap-4">
               {socialLinks.map((social) => (
                 <motion.a
                   key={social.name}
@@ -105,9 +105,9 @@ export default function Footer() {
         </div>
 
         {/* Bottom Bar */}
-        <div className="pt-8 border-t border-gray-800">
-          <div className="flex flex-col md:flex-row justify-between items-center gap-4">
-            <p className="text-gray-400 text-sm">
+        <div className="pt-6 md:pt-8 border-t border-gray-800">
+          <div className="flex flex-col md:flex-row justify-between items-center gap-3 md:gap-4">
+            <p className="text-sm text-gray-400 text-center md:text-left">
               © {currentYear} HireScope. Built with ❤️ by Parth Sharma
             </p>
             <div className="flex gap-6 text-sm">

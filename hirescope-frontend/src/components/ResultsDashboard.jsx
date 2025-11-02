@@ -44,9 +44,9 @@ export default function ResultsDashboard({ result }) {
       initial={{ opacity: 0 }}
       animate={{ opacity: 1 }}
       transition={{ duration: 0.5 }}
-      className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12"
+      className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 md:py-12"
     >
-      <div className="space-y-8">
+      <div className="space-y-6 md:space-y-8">
         {/* Header */}
         <motion.div
           initial={{ opacity: 0, y: 20 }}
@@ -54,10 +54,10 @@ export default function ResultsDashboard({ result }) {
           transition={{ delay: 0.1 }}
           className="text-center"
         >
-          <h2 className="text-3xl font-bold text-gray-900 mb-2">
+          <h2 className="text-2xl md:text-3xl font-bold text-gray-900 mb-2">
             Analysis Complete
           </h2>
-          <p className="text-gray-600">
+          <p className="text-sm md:text-base text-gray-600">
             Here's how your resume matches the job description
           </p>
         </motion.div>
@@ -67,10 +67,10 @@ export default function ResultsDashboard({ result }) {
           initial={{ opacity: 0, scale: 0.95 }}
           animate={{ opacity: 1, scale: 1 }}
           transition={{ delay: 0.2 }}
-          className="glass-effect rounded-2xl p-8 shadow-card"
+          className="glass-effect rounded-2xl p-6 md:p-8 shadow-card"
         >
-          <div className="flex flex-col md:flex-row items-center gap-8">
-            <div className="w-48 h-48">
+          <div className="flex flex-col md:flex-row items-center gap-6 md:gap-8">
+            <div className="w-40 h-40 md:w-48 md:h-48">
               <ResponsiveContainer width="100%" height="100%">
                 <RadialBarChart
                   cx="50%"
@@ -109,13 +109,13 @@ export default function ResultsDashboard({ result }) {
             </div>
 
             <div className="flex-1 text-center md:text-left">
-              <h3 className="text-2xl font-bold text-gray-900 mb-2">
+              <h3 className="text-xl md:text-2xl font-bold text-gray-900 mb-2">
                 Overall Match Score
               </h3>
-              <p className={`text-xl font-semibold mb-4 ${getScoreColor(overallScore)}`}>
+              <p className={`text-lg md:text-xl font-semibold mb-4 ${getScoreColor(overallScore)}`}>
                 {getScoreLabel(overallScore)}
               </p>
-              <p className="text-gray-600 max-w-xl">
+              <p className="text-sm md:text-base text-gray-600 max-w-xl">
                 Your resume has been analyzed against the job description. The
                 score reflects keyword relevance, skills alignment, and content
                 quality.
@@ -133,7 +133,7 @@ export default function ResultsDashboard({ result }) {
             className="space-y-6"
           >
             {/* Primary Metrics */}
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 md:gap-6">
               {[
                 {
                   label: "Structural Quality",
@@ -156,7 +156,7 @@ export default function ResultsDashboard({ result }) {
               ].map((item, i) => (
                 <div
                   key={item.label}
-                  className="glass-effect rounded-xl p-6 shadow-card"
+                  className="glass-effect rounded-xl p-4 md:p-6 shadow-card"
                 >
                   <div className="flex items-center gap-3 mb-4">
                     <div className="p-2 bg-indigo-100 rounded-lg">
@@ -186,7 +186,7 @@ export default function ResultsDashboard({ result }) {
             </div>
 
             {/* Secondary Metrics */}
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-4 md:gap-6">
               {[
                 {
                   label: "Readability",
@@ -203,7 +203,7 @@ export default function ResultsDashboard({ result }) {
               ].map((item, i) => (
                 <div
                   key={item.label}
-                  className="glass-effect rounded-xl p-6 shadow-card"
+                  className="glass-effect rounded-xl p-4 md:p-6 shadow-card"
                 >
                   <div className="flex items-center justify-between mb-4">
                     <div>

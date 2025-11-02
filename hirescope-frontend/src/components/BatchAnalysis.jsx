@@ -133,7 +133,7 @@ export default function BatchAnalysis() {
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-b from-gray-50 to-white py-8">
+    <div className="min-h-screen bg-gradient-to-b from-gray-50 to-white py-6 md:py-8">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         {!results ? (
           <>
@@ -141,16 +141,16 @@ export default function BatchAnalysis() {
             <motion.div
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
-              className="mb-8"
+              className="mb-6 md:mb-8"
             >
-              <div className="bg-white rounded-2xl shadow-lg p-8 border border-gray-200">
-                <div className="flex items-center gap-3 mb-6">
-                  <div className="w-12 h-12 bg-gradient-to-br from-purple-500 to-blue-600 rounded-xl flex items-center justify-center">
-                    <DocumentPlusIcon className="w-7 h-7 text-white" />
+              <div className="bg-white rounded-2xl shadow-lg p-6 md:p-8 border border-gray-200">
+                <div className="flex flex-col sm:flex-row items-start sm:items-center gap-3 mb-6">
+                  <div className="w-10 h-10 md:w-12 md:h-12 bg-gradient-to-br from-purple-500 to-blue-600 rounded-xl flex items-center justify-center">
+                    <DocumentPlusIcon className="w-6 h-6 md:w-7 md:h-7 text-white" />
                   </div>
                   <div>
-                    <h3 className="text-2xl font-bold text-gray-900">Upload Resumes</h3>
-                    <p className="text-gray-600">Upload up to 10 resumes (PDF or DOCX)</p>
+                    <h3 className="text-xl md:text-2xl font-bold text-gray-900">Upload Resumes</h3>
+                    <p className="text-sm md:text-base text-gray-600">Upload up to 10 resumes (PDF or DOCX)</p>
                   </div>
                 </div>
 
@@ -160,14 +160,14 @@ export default function BatchAnalysis() {
                   onDragLeave={handleDrag}
                   onDragOver={handleDrag}
                   onDrop={handleDrop}
-                  className={`border-2 border-dashed rounded-xl p-12 text-center transition-all ${
+                  className={`border-2 border-dashed rounded-xl p-8 md:p-12 text-center transition-all ${
                     dragActive
                       ? "border-purple-500 bg-purple-50"
                       : "border-gray-300 hover:border-purple-400 hover:bg-gray-50"
                   }`}
                 >
-                  <CloudArrowUpIcon className="w-16 h-16 text-gray-400 mx-auto mb-4" />
-                  <p className="text-lg font-semibold text-gray-700 mb-2">
+                  <CloudArrowUpIcon className="w-12 h-12 md:w-16 md:h-16 text-gray-400 mx-auto mb-4" />
+                  <p className="text-base md:text-lg font-semibold text-gray-700 mb-2">
                     Drag and drop resume files here
                   </p>
                   <p className="text-gray-500 mb-4">or</p>
@@ -274,7 +274,7 @@ export default function BatchAnalysis() {
               className="space-y-8"
             >
               {/* Statistics Cards */}
-              <div className="grid grid-cols-1 md:grid-cols-4 gap-6">
+              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 md:gap-6">
                 <motion.div
                   initial={{ opacity: 0, y: 20 }}
                   animate={{ opacity: 1, y: 0 }}
@@ -328,19 +328,19 @@ export default function BatchAnalysis() {
               </div>
 
               {/* Export Buttons */}
-              <div className="flex justify-between items-center">
-                <h3 className="text-2xl font-bold text-gray-900">Comparison Results</h3>
-                <div className="flex gap-3">
+              <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
+                <h3 className="text-xl md:text-2xl font-bold text-gray-900">Comparison Results</h3>
+                <div className="flex flex-col sm:flex-row gap-3 w-full sm:w-auto">
                   <button
                     onClick={exportToCSV}
-                    className="px-6 py-3 bg-green-600 text-white rounded-xl font-semibold hover:bg-green-700 transition-all flex items-center gap-2"
+                    className="px-4 md:px-6 py-3 bg-green-600 text-white rounded-xl font-semibold hover:bg-green-700 transition-all flex items-center justify-center gap-2 w-full sm:w-auto"
                   >
                     <ArrowDownTrayIcon className="w-5 h-5" />
                     Export CSV
                   </button>
                   <button
                     onClick={() => setResults(null)}
-                    className="px-6 py-3 bg-gray-600 text-white rounded-xl font-semibold hover:bg-gray-700 transition-all"
+                    className="px-4 md:px-6 py-3 bg-gray-600 text-white rounded-xl font-semibold hover:bg-gray-700 transition-all w-full sm:w-auto"
                   >
                     New Analysis
                   </button>
