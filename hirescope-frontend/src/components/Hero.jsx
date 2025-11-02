@@ -3,19 +3,19 @@ import { motion } from "framer-motion";
 
 export default function Hero({ onBuildResume }) {
   return (
-    <div className="min-h-screen bg-gradient-to-b from-gray-50 to-white flex items-center">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 w-full pt-2mo pb-8">
-        <div className="grid md:grid-cols-2 gap-12 items-center">
+    <div className="min-h-screen bg-gradient-to-b from-gray-50 to-white flex items-center py-8 md:py-0">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 w-full pt-16 md:pt-0 pb-8">
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-8 md:gap-12 items-center">
           {/* Left Column - Enhanced Tagline and CTA */}
           <motion.div
             initial={{ opacity: 0, x: -20 }}
             animate={{ opacity: 1, x: 0 }}
             transition={{ duration: 0.6 }}
-            className="relative -mt-20"
+            className="relative md:-mt-20 order-2 md:order-1"
           >
             {/* Background decorative elements */}
-            <div className="absolute -top-10 -left-10 w-40 h-40 bg-gradient-to-br from-purple-400/20 to-pink-400/20 rounded-full blur-3xl"></div>
-            <div className="absolute top-1/3 -left-5 w-32 h-32 bg-gradient-to-br from-blue-400/20 to-cyan-400/20 rounded-full blur-2xl"></div>
+            <div className="absolute -top-10 -left-10 w-32 h-32 md:w-40 md:h-40 bg-gradient-to-br from-purple-400/20 to-pink-400/20 rounded-full blur-3xl"></div>
+            <div className="absolute top-1/3 -left-5 w-24 h-24 md:w-32 md:h-32 bg-gradient-to-br from-blue-400/20 to-cyan-400/20 rounded-full blur-2xl"></div>
             
             <div className="relative space-y-6">
               {/* Badge */}
@@ -42,7 +42,7 @@ export default function Hero({ onBuildResume }) {
                   initial={{ opacity: 0, y: 20 }}
                   animate={{ opacity: 1, y: 0 }}
                   transition={{ delay: 0.3 }}
-                  className="text-5xl md:text-6xl font-bold text-gray-900 leading-tight relative"
+                  className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold text-gray-900 leading-tight relative"
                 >
                   <span className="relative inline-block">
                     Next-Gen
@@ -77,12 +77,12 @@ export default function Hero({ onBuildResume }) {
                     initial={{ opacity: 0, x: -20 }}
                     animate={{ opacity: 1, x: 0 }}
                     transition={{ delay: 0.6 + idx * 0.1 }}
-                    className="flex items-start gap-4 group"
+                    className="flex items-start gap-3 md:gap-4 group"
                   >
-                    <div className={`flex-shrink-0 w-10 h-10 rounded-xl bg-gradient-to-br ${feature.gradient} flex items-center justify-center shadow-lg group-hover:scale-110 transition-transform duration-300`}>
-                      <span className="text-lg">{feature.icon}</span>
+                    <div className={`flex-shrink-0 w-8 h-8 md:w-10 md:h-10 rounded-xl bg-gradient-to-br ${feature.gradient} flex items-center justify-center shadow-lg group-hover:scale-110 transition-transform duration-300`}>
+                      <span className="text-base md:text-lg">{feature.icon}</span>
                     </div>
-                    <p className="text-lg text-gray-700 font-medium pt-2">
+                    <p className="text-base md:text-lg text-gray-700 font-medium pt-1 md:pt-2">
                       {feature.text}
                     </p>
                   </motion.div>
@@ -97,13 +97,13 @@ export default function Hero({ onBuildResume }) {
                 className="space-y-4 pt-2"
               >
                 {/* Primary CTA Button */}
-                <div className="relative inline-block">
+                <div className="relative inline-block w-full sm:w-auto">
                   <div className="absolute -inset-1 bg-gradient-to-r from-purple-600 via-blue-600 to-purple-600 rounded-2xl blur opacity-40 group-hover:opacity-60 transition duration-300"></div>
                   <button
                     onClick={onBuildResume}
-                    className="relative group px-8 py-4 bg-gradient-to-r from-purple-600 via-blue-600 to-purple-600 text-white text-lg font-bold rounded-xl hover:shadow-2xl transition-all duration-300 transform hover:scale-105 overflow-hidden"
+                    className="relative group px-6 py-3 md:px-8 md:py-4 bg-gradient-to-r from-purple-600 via-blue-600 to-purple-600 text-white text-base md:text-lg font-bold rounded-xl hover:shadow-2xl transition-all duration-300 transform hover:scale-105 overflow-hidden w-full sm:w-auto"
                   >
-                    <span className="relative z-10 flex items-center gap-3">
+                    <span className="relative z-10 flex items-center justify-center gap-2 md:gap-3">
                       <span>Explore the Architecture</span>
                       <motion.span
                         animate={{ rotate: [0, 360] }}
@@ -117,14 +117,14 @@ export default function Hero({ onBuildResume }) {
                 </div>
 
                 {/* Secondary Info */}
-                <div className="flex items-center gap-3 text-sm text-gray-500">
+                <div className="flex flex-col sm:flex-row items-start sm:items-center gap-2 sm:gap-3 text-xs sm:text-sm text-gray-500">
                   <div className="flex items-center gap-2">
                     <svg className="w-5 h-5 text-green-500" fill="currentColor" viewBox="0 0 20 20">
                       <path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clipRule="evenodd" />
                     </svg>
                     <span className="font-medium">Open-source ML models</span>
                   </div>
-                  <span>•</span>
+                  <span className="hidden sm:inline">•</span>
                   <div className="flex items-center gap-2">
                     <svg className="w-5 h-5 text-blue-500" fill="currentColor" viewBox="0 0 20 20">
                       <path fillRule="evenodd" d="M5 9V7a5 5 0 0110 0v2a2 2 0 012 2v5a2 2 0 01-2 2H5a2 2 0 01-2-2v-5a2 2 0 012-2zm8-2v2H7V7a3 3 0 016 0z" clipRule="evenodd" />
@@ -141,7 +141,7 @@ export default function Hero({ onBuildResume }) {
                 transition={{ delay: 1.1 }}
                 className="pt-6 space-y-3"
               >
-                <div className="flex items-center gap-4">
+                <div className="flex flex-col sm:flex-row items-start sm:items-center gap-3 sm:gap-4">
                   {/* Avatar Stack with Hover Effects */}
                   <div className="flex -space-x-3">
                     {[
@@ -186,30 +186,30 @@ export default function Hero({ onBuildResume }) {
             initial={{ opacity: 0, x: 20 }}
             animate={{ opacity: 1, x: 0 }}
             transition={{ duration: 0.6, delay: 0.2 }}
-            className="relative"
+            className="relative order-1 md:order-2"
           >
             {/* Main Resume Card */}
             <div className="relative bg-white rounded-3xl shadow-2xl overflow-hidden border border-gray-100">
               {/* Gradient Header Background */}
-              <div className="absolute top-0 left-0 right-0 h-32 bg-gradient-to-br from-purple-600/10 via-blue-600/10 to-purple-600/10"></div>
+              <div className="absolute top-0 left-0 right-0 h-24 md:h-32 bg-gradient-to-br from-purple-600/10 via-blue-600/10 to-purple-600/10"></div>
               
-              <div className="relative p-8">
+              <div className="relative p-4 sm:p-6 md:p-8">
                 {/* Header Section with Avatar */}
-                <div className="flex items-start justify-between mb-8">
-                  <div className="flex items-center gap-4">
+                <div className="flex items-start justify-between mb-6 md:mb-8">
+                  <div className="flex items-center gap-3 md:gap-4">
                     {/* Professional Avatar with Ring */}
                     <div className="relative">
                       <div className="absolute inset-0 bg-gradient-to-br from-purple-400 to-blue-500 rounded-full blur-md opacity-40"></div>
-                      <div className="relative w-20 h-20 bg-gradient-to-br from-purple-600 to-blue-600 rounded-full flex items-center justify-center ring-4 ring-white shadow-xl">
-                        <span className="text-3xl font-bold text-white">SC</span>
+                      <div className="relative w-16 h-16 md:w-20 md:h-20 bg-gradient-to-br from-purple-600 to-blue-600 rounded-full flex items-center justify-center ring-4 ring-white shadow-xl">
+                        <span className="text-2xl md:text-3xl font-bold text-white">SC</span>
                       </div>
                       {/* Online indicator */}
-                      <div className="absolute bottom-1 right-1 w-4 h-4 bg-green-500 rounded-full border-2 border-white"></div>
+                      <div className="absolute bottom-0.5 right-0.5 md:bottom-1 md:right-1 w-3 h-3 md:w-4 md:h-4 bg-green-500 rounded-full border-2 border-white"></div>
                     </div>
                     
                     <div>
-                      <h3 className="text-2xl font-bold text-gray-900 mb-1">Sarah Chen</h3>
-                      <p className="text-base text-gray-600 font-medium">Senior Product Manager</p>
+                      <h3 className="text-lg md:text-2xl font-bold text-gray-900 mb-1">Sarah Chen</h3>
+                      <p className="text-sm md:text-base text-gray-600 font-medium">Senior Product Manager</p>
                       <div className="flex items-center gap-2 mt-1">
                         <span className="text-xs text-gray-500">📍 San Francisco, CA</span>
                         <span className="text-xs text-gray-400">•</span>
@@ -225,20 +225,20 @@ export default function Hero({ onBuildResume }) {
                     transition={{ delay: 0.5, type: "spring" }}
                     className="relative"
                   >
-                    <div className="bg-gradient-to-br from-green-50 to-emerald-50 border-2 border-green-500 rounded-2xl px-5 py-3 text-center shadow-lg">
-                      <div className="text-4xl font-bold bg-gradient-to-br from-green-600 to-emerald-600 bg-clip-text text-transparent">87%</div>
-                      <div className="text-xs text-green-700 font-bold uppercase tracking-wide">ATS Score</div>
-                      <div className="absolute -top-1 -right-1 w-3 h-3 bg-green-500 rounded-full animate-pulse"></div>
+                    <div className="bg-gradient-to-br from-green-50 to-emerald-50 border-2 border-green-500 rounded-2xl px-3 py-2 md:px-5 md:py-3 text-center shadow-lg">
+                      <div className="text-2xl md:text-4xl font-bold bg-gradient-to-br from-green-600 to-emerald-600 bg-clip-text text-transparent">87%</div>
+                      <div className="text-xs font-bold uppercase tracking-wide text-green-700">ATS Score</div>
+                      <div className="absolute -top-1 -right-1 w-2 h-2 md:w-3 md:h-3 bg-green-500 rounded-full animate-pulse"></div>
                     </div>
                   </motion.div>
                 </div>
 
                 {/* Contact Info Bar */}
-                <div className="flex items-center gap-4 mb-6 p-3 bg-gray-50 rounded-xl border border-gray-100">
+                <div className="flex flex-wrap items-center gap-2 md:gap-4 mb-4 md:mb-6 p-2 md:p-3 bg-gray-50 rounded-xl border border-gray-100">
                   <span className="text-xs text-gray-600">📧 sarah.chen@email.com</span>
-                  <span className="text-gray-300">|</span>
+                  <span className="text-gray-300 hidden sm:inline">|</span>
                   <span className="text-xs text-gray-600">📱 (555) 123-4567</span>
-                  <span className="text-gray-300">|</span>
+                  <span className="text-gray-300 hidden sm:inline">|</span>
                   <span className="text-xs text-blue-600">🔗 LinkedIn</span>
                 </div>
 
@@ -290,12 +290,12 @@ export default function Hero({ onBuildResume }) {
                 </div>
 
                 {/* Skills Section with Progress Bars */}
-                <div className="mb-6">
+                <div className="mb-4 md:mb-6">
                   <div className="flex items-center gap-2 mb-3">
                     <div className="w-1 h-5 bg-gradient-to-b from-purple-600 to-pink-600 rounded-full"></div>
-                    <h4 className="text-sm font-bold text-gray-900 uppercase tracking-wide">Key Skills</h4>
+                    <h4 className="text-xs md:text-sm font-bold text-gray-900 uppercase tracking-wide">Key Skills</h4>
                   </div>
-                  <div className="grid grid-cols-2 gap-3 pl-3">
+                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-2 md:gap-3 pl-3">
                     <div className="space-y-2">
                       <div className="flex items-center justify-between">
                         <span className="text-xs text-gray-600 font-medium">Leadership</span>
@@ -364,12 +364,12 @@ export default function Hero({ onBuildResume }) {
             <motion.div
               animate={{ y: [0, -12, 0] }}
               transition={{ duration: 3, repeat: Infinity, ease: "easeInOut" }}
-              className="absolute -top-4 -left-4 z-10"
+              className="absolute -top-2 -left-2 md:-top-4 md:-left-4 z-10"
             >
-              <div className="bg-gradient-to-r from-blue-500 to-blue-600 text-white px-4 py-2.5 rounded-xl shadow-2xl border-2 border-blue-400">
-                <div className="flex items-center gap-2">
-                  <span className="text-lg">✓</span>
-                  <span className="text-sm font-bold">ATS Optimized</span>
+              <div className="bg-gradient-to-r from-blue-500 to-blue-600 text-white px-3 py-2 md:px-4 md:py-2.5 rounded-xl shadow-2xl border-2 border-blue-400">
+                <div className="flex items-center gap-1.5 md:gap-2">
+                  <span className="text-base md:text-lg">✓</span>
+                  <span className="text-xs md:text-sm font-bold">ATS Optimized</span>
                 </div>
               </div>
             </motion.div>
@@ -377,12 +377,12 @@ export default function Hero({ onBuildResume }) {
             <motion.div
               animate={{ y: [0, -12, 0] }}
               transition={{ duration: 3, delay: 1, repeat: Infinity, ease: "easeInOut" }}
-              className="absolute -bottom-4 -right-4 z-10"
+              className="absolute -bottom-2 -right-2 md:-bottom-4 md:-right-4 z-10"
             >
-              <div className="bg-gradient-to-r from-green-500 to-emerald-600 text-white px-4 py-2.5 rounded-xl shadow-2xl border-2 border-green-400">
-                <div className="flex items-center gap-2">
-                  <span className="text-lg">🚀</span>
-                  <span className="text-sm font-bold">+45 Points</span>
+              <div className="bg-gradient-to-r from-green-500 to-emerald-600 text-white px-3 py-2 md:px-4 md:py-2.5 rounded-xl shadow-2xl border-2 border-green-400">
+                <div className="flex items-center gap-1.5 md:gap-2">
+                  <span className="text-base md:text-lg">🚀</span>
+                  <span className="text-xs md:text-sm font-bold">+45 Points</span>
                 </div>
               </div>
             </motion.div>
@@ -391,17 +391,17 @@ export default function Hero({ onBuildResume }) {
             <motion.div
               animate={{ y: [0, -8, 0] }}
               transition={{ duration: 2.5, delay: 0.5, repeat: Infinity, ease: "easeInOut" }}
-              className="absolute top-1/3 -right-6 z-10"
+              className="absolute top-1/3 -right-4 md:-right-6 z-10 hidden md:block"
             >
-              <div className="bg-gradient-to-br from-purple-500 to-pink-600 text-white px-3 py-2 rounded-lg shadow-xl">
+              <div className="bg-gradient-to-br from-purple-500 to-pink-600 text-white px-2 py-1.5 md:px-3 md:py-2 rounded-lg shadow-xl">
                 <div className="text-xs font-bold">95% Match</div>
               </div>
             </motion.div>
 
             {/* Decorative elements - Enhanced */}
-            <div className="absolute -z-10 top-10 -right-10 w-72 h-72 bg-gradient-to-br from-purple-200 to-pink-200 rounded-full blur-3xl opacity-40"></div>
-            <div className="absolute -z-10 -bottom-10 -left-10 w-72 h-72 bg-gradient-to-br from-blue-200 to-cyan-200 rounded-full blur-3xl opacity-40"></div>
-            <div className="absolute -z-10 top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-96 h-96 bg-gradient-to-br from-purple-100 to-blue-100 rounded-full blur-3xl opacity-20"></div>
+            <div className="absolute -z-10 top-10 -right-10 w-48 h-48 md:w-72 md:h-72 bg-gradient-to-br from-purple-200 to-pink-200 rounded-full blur-3xl opacity-40"></div>
+            <div className="absolute -z-10 -bottom-10 -left-10 w-48 h-48 md:w-72 md:h-72 bg-gradient-to-br from-blue-200 to-cyan-200 rounded-full blur-3xl opacity-40"></div>
+            <div className="absolute -z-10 top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-64 h-64 md:w-96 md:h-96 bg-gradient-to-br from-purple-100 to-blue-100 rounded-full blur-3xl opacity-20"></div>
           </motion.div>
         </div>
       </div>

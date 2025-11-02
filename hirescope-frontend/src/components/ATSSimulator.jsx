@@ -108,26 +108,26 @@ export default function ATSSimulator() {
   };
 
   return (
-    <section id="ats-simulator" className="py-20 px-4 bg-gradient-to-b from-white to-gray-50">
+    <section id="ats-simulator" className="py-12 md:py-20 px-4 bg-gradient-to-b from-white to-gray-50">
       <div className="max-w-7xl mx-auto">
         {/* Header */}
-        <div className="text-center mb-12">
+        <div className="text-center mb-8 md:mb-12">
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.5 }}
             viewport={{ once: true }}
           >
-            <div className="flex items-center justify-center gap-3 mb-4">
-              <BeakerIcon className="w-12 h-12 text-purple-600" />
-              <h2 className="text-4xl md:text-5xl font-bold text-gray-900">
+            <div className="flex flex-col sm:flex-row items-center justify-center gap-2 sm:gap-3 mb-4">
+              <BeakerIcon className="w-10 h-10 md:w-12 md:h-12 text-purple-600" />
+              <h2 className="text-3xl md:text-4xl lg:text-5xl font-bold text-gray-900">
                 ATS Simulator
               </h2>
             </div>
-            <p className="text-xl text-gray-600 max-w-3xl mx-auto">
+            <p className="text-lg md:text-xl text-gray-600 max-w-3xl mx-auto px-4">
               See exactly what Applicant Tracking Systems see when they parse your resume
             </p>
-            <p className="text-gray-500 mt-2">
+            <p className="text-sm md:text-base text-gray-500 mt-2 px-4">
               Upload your resume to visualize parsing issues and get ATS compatibility insights
             </p>
           </motion.div>
@@ -231,27 +231,27 @@ export default function ATSSimulator() {
               </div>
 
               {/* Statistics - Reorganized into 4 Categories */}
-              <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mt-6">
+              <div className="grid grid-cols-2 md:grid-cols-4 gap-3 md:gap-4 mt-6">
                 {/* 1. Lines Detected - Static */}
-                <div className="bg-gray-50 rounded-lg p-4">
-                  <div className="text-2xl font-bold text-gray-900">{result.statistics.total_lines}</div>
-                  <div className="text-sm text-gray-600">Lines Detected</div>
+                <div className="bg-gray-50 rounded-lg p-3 md:p-4">
+                  <div className="text-xl md:text-2xl font-bold text-gray-900">{result.statistics.total_lines}</div>
+                  <div className="text-xs md:text-sm text-gray-600">Lines Detected</div>
                 </div>
                 
                 {/* 2. Socials - Clickable */}
                 <button
                   onClick={() => toggleSection('socials')}
-                  className="bg-blue-50 rounded-lg p-4 hover:bg-blue-100 transition-colors text-left cursor-pointer border border-blue-100"
+                  className="bg-blue-50 rounded-lg p-3 md:p-4 hover:bg-blue-100 transition-colors text-left cursor-pointer border border-blue-100"
                 >
                   <div className="flex items-center justify-between">
                     <div>
-                      <div className="text-2xl font-bold text-blue-900">
+                      <div className="text-xl md:text-2xl font-bold text-blue-900">
                         {result.statistics.social_urls?.length || 0}
                       </div>
-                      <div className="text-sm text-blue-700">Social Links</div>
+                      <div className="text-xs md:text-sm text-blue-700">Social Links</div>
                     </div>
                     {result.statistics.social_urls && result.statistics.social_urls.length > 0 && (
-                      <ChevronDownIcon className={`w-5 h-5 text-blue-400 transition-transform ${expandedSections.socials ? 'rotate-180' : ''}`} />
+                      <ChevronDownIcon className={`w-4 h-4 md:w-5 md:h-5 text-blue-400 transition-transform ${expandedSections.socials ? 'rotate-180' : ''}`} />
                     )}
                   </div>
                 </button>
@@ -259,17 +259,17 @@ export default function ATSSimulator() {
                 {/* 3. Contacts - Clickable */}
                 <button
                   onClick={() => toggleSection('contacts')}
-                  className="bg-green-50 rounded-lg p-4 hover:bg-green-100 transition-colors text-left cursor-pointer border border-green-100"
+                  className="bg-green-50 rounded-lg p-3 md:p-4 hover:bg-green-100 transition-colors text-left cursor-pointer border border-green-100"
                 >
                   <div className="flex items-center justify-between">
                     <div>
-                      <div className="text-2xl font-bold text-green-900">
+                      <div className="text-xl md:text-2xl font-bold text-green-900">
                         {result.statistics.emails_found + result.statistics.phones_found}
                       </div>
-                      <div className="text-sm text-green-700">Contact Details</div>
+                      <div className="text-xs md:text-sm text-green-700">Contact Details</div>
                     </div>
                     {(result.statistics.emails_found + result.statistics.phones_found) > 0 && (
-                      <ChevronDownIcon className={`w-5 h-5 text-green-400 transition-transform ${expandedSections.contacts ? 'rotate-180' : ''}`} />
+                      <ChevronDownIcon className={`w-4 h-4 md:w-5 md:h-5 text-green-400 transition-transform ${expandedSections.contacts ? 'rotate-180' : ''}`} />
                     )}
                   </div>
                 </button>
@@ -277,15 +277,15 @@ export default function ATSSimulator() {
                 {/* 4. Resume Sections - Clickable */}
                 <button
                   onClick={() => toggleSection('sections')}
-                  className="bg-purple-50 rounded-lg p-4 hover:bg-purple-100 transition-colors text-left cursor-pointer border border-purple-100"
+                  className="bg-purple-50 rounded-lg p-3 md:p-4 hover:bg-purple-100 transition-colors text-left cursor-pointer border border-purple-100"
                 >
                   <div className="flex items-center justify-between">
                     <div>
-                      <div className="text-2xl font-bold text-purple-900">{result.statistics.sections_detected}</div>
-                      <div className="text-sm text-purple-700">Resume Sections</div>
+                      <div className="text-xl md:text-2xl font-bold text-purple-900">{result.statistics.sections_detected}</div>
+                      <div className="text-xs md:text-sm text-purple-700">Resume Sections</div>
                     </div>
                     {result.statistics.sections_detected > 0 && (
-                      <ChevronDownIcon className={`w-5 h-5 text-purple-400 transition-transform ${expandedSections.sections ? 'rotate-180' : ''}`} />
+                      <ChevronDownIcon className={`w-4 h-4 md:w-5 md:h-5 text-purple-400 transition-transform ${expandedSections.sections ? 'rotate-180' : ''}`} />
                     )}
                   </div>
                 </button>
