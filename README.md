@@ -72,15 +72,6 @@ HireScope is an advanced resume analysis platform that leverages state-of-the-ar
 - **Multi-Level Prioritization**: Critical → High → Medium → Optional
 - **Overall Grade**: A/B/C/D rating with detailed breakdown
 
-### 🎨 Modern UI/UX
-- **Glass-morphism Design**: Elegant frosted glass aesthetic
-- **Responsive Layout**: Optimized for mobile, tablet, and desktop
-- **Smooth Animations**: 60 FPS transitions with Framer Motion
-- **Interactive Charts**: Radial bar charts and progress indicators
-- **Drag-and-Drop Upload**: Intuitive file handling
-- **Real-time Validation**: Instant feedback on uploads
-- **Loading States**: Engaging analysis progress indicators
-
 ### 🔧 Technical Excellence
 - **Fast Processing**: 2-3 second average analysis time
 - **File Format Support**: PDF and DOCX
