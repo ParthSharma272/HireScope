@@ -12,8 +12,6 @@
 
 HireScope is an advanced resume analysis platform that leverages state-of-the-art NLP, semantic embeddings, and machine learning to revolutionize how you evaluate candidates. Built with modern web technologies and AI models, it provides instant, actionable insights to help both job seekers optimize their resumes and recruiters find the perfect match.
 
-[🚀 Live Demo](hire-scope-gules.vercel.app/) • [📖 Documentation](#-table-of-contents) • [🐛 Report Bug](https://github.com/ParthSharma272/HireScope/issues) • [✨ Request Feature](https://github.com/ParthSharma272/HireScope/issues)
-
 ---
 
 ## 📑 Table of Contents
@@ -74,6 +72,8 @@ HireScope is an advanced resume analysis platform that leverages state-of-the-ar
 ---
 
 ## 🎬 Demo
+
+
 
 ### Visual Workflow
 
@@ -229,52 +229,28 @@ HireScope is an advanced resume analysis platform that leverages state-of-the-ar
 ### Clone Repository
 
 ```bash
-# Clone the repository
 git clone https://github.com/ParthSharma272/HireScope.git
-
-# Navigate to project directory
 cd HireScope
 ```
 
 ### Backend Setup
 
 ```bash
-# Navigate to backend folder
 cd backend
 
-# Create virtual environment
 python3 -m venv venv
-
-# Activate virtual environment
-# On macOS/Linux:
 source venv/bin/activate
-# On Windows:
-# venv\Scripts\activate
-
-# Upgrade pip
 pip install --upgrade pip
 
-# Install dependencies
 pip install -r requirements.txt
-
-# Download spaCy language model
 python -m spacy download en_core_web_sm
-
-# Verify installation
-python -c "import fastapi; import sentence_transformers; import spacy; print('✅ All dependencies installed!')"
 ```
 
 ### Frontend Setup
 
 ```bash
-# Navigate to frontend folder
 cd ../hirescope-frontend
-
-# Install dependencies
 npm install
-
-# Verify installation
-npm list react vite tailwindcss
 ```
 
 ---
