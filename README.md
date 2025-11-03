@@ -25,7 +25,6 @@ HireScope is an advanced resume analysis platform that leverages state-of-the-ar
 - [Installation](#-installation)
 - [Quick Start](#-quick-start)
 - [Contact](#-contact)
-- [Acknowledgments](#-acknowledgments)
 
 ---
 
@@ -339,38 +338,6 @@ Open your browser and navigate to:
 - 🐙 GitHub: [@ParthSharma272](https://github.com/ParthSharma272)
 - 📝 Medium: [@parthsharma23212](https://medium.com/@parthsharma23212)
 - 🌐 Portfolio: [portfolio-website-f311.vercel.app](https://portfolio-website-f311.vercel.app/)
-
----
-
-## 🙏 Acknowledgments
-
-### Design Inspiration
-- **EnhanceCV** - Clean card-based design and modern aesthetics
-- **Resume.io** - Professional color palette and typography
-- **FlowCV** - Smooth animations and user experience
-- **MyPerfectResume** - Clear data visualization patterns
-- **Resume Worded** - Actionable insights presentation
-
-### Open Source Libraries
-- **[Hugging Face](https://huggingface.co/)** - Sentence Transformers models
-- **[spaCy](https://spacy.io/)** - Industrial-strength NLP
-- **[FastAPI](https://fastapi.tiangolo.com/)** - Modern Python web framework
-- **[React](https://reactjs.org/)** - UI library by Meta
-- **[Tailwind CSS](https://tailwindcss.com/)** - Utility-first CSS framework
-- **[Framer Motion](https://www.framer.com/motion/)** - Production-ready animations
-- **[Heroicons](https://heroicons.com/)** - Beautiful SVG icons by Tailwind Labs
-
-### Research Papers
-- **Sentence-BERT**: Reimers & Gurevych (2019) - "Sentence-BERT: Sentence Embeddings using Siamese BERT-Networks"
-- **BERT**: Devlin et al. (2018) - "BERT: Pre-training of Deep Bidirectional Transformers"
-- **Attention Mechanism**: Vaswani et al. (2017) - "Attention Is All You Need"
-
-### Community
-- Stack Overflow community
-- Reddit r/MachineLearning
-- GitHub open source contributors
-- FastAPI Discord server
-- React community
 
 ---
 
