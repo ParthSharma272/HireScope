@@ -87,23 +87,7 @@ HireScope is an advanced resume analysis platform that leverages state-of-the-ar
 
 ### Sample Output
 
-**Overall Score**: 87/100 (Strong Match) 🟢
-
-**Breakdown**:
-- Structural Quality: 92% ⭐⭐⭐⭐⭐
-- Keyword Match: 85% ⭐⭐⭐⭐
-- Semantic Relevance: 88% ⭐⭐⭐⭐⭐
-- Readability: 90% ⭐⭐⭐⭐⭐
-- Tone & Impact: 80% ⭐⭐⭐⭐
-
-**Matched Keywords**: Python, React, AWS, Docker, API Design (15 more...)
-
-**Missing Keywords**: Kubernetes, GraphQL, TypeScript
-
-**Quick Wins**:
-1. Add missing "Kubernetes" keyword → +8 points
-2. Quantify achievements with metrics → +5 points
-3. Add technical skills section → +4 points
+![PHOTO-2025-11-03-10-51-03](https://github.com/user-attachments/assets/2ace2b47-216c-4035-8f6b-146e8a6f4dd4)
 
 ---
 
