@@ -1,4 +1,5 @@
 # backend/core/embedding_store.py
+from sentence_transformers import SentenceTransformer
 import numpy as np
 import threading
 import time
@@ -27,15 +28,6 @@ def get_model(name: str = "all-mpnet-base-v2", max_retries: int = 3):
                 for attempt in range(max_retries):
                     try:
                         logger.info(f"Loading model '{name}' (attempt {attempt + 1}/{max_retries})...")
-                        # Lazy import to avoid importing heavy dependencies (torch) at module import time.
-                        try:
-                            from sentence_transformers import SentenceTransformer
-                        except Exception as imp_err:
-                            logger.error(
-                                "sentence_transformers import failed. Ensure 'sentence-transformers' and its native deps (torch) are installed."
-                            )
-                            raise
-
                         _MODEL = SentenceTransformer(name)
                         logger.info(f"Model '{name}' loaded successfully")
                         break

@@ -4,6 +4,7 @@ import logging
 from collections import Counter
 import numpy as np
 from typing import List, Dict, Set, Optional
+from sentence_transformers import SentenceTransformer
 from utils.cache import cached, get_cache_stats
 
 logger = logging.getLogger(__name__)
@@ -12,7 +13,7 @@ logger = logging.getLogger(__name__)
 _model = None
 _model_loading = False
 
-def get_embedding_model() -> Optional[object]:
+def get_embedding_model() -> Optional[SentenceTransformer]:
     """
     Lazy load embedding model with singleton pattern and error handling.
     Returns None if model fails to load (allows graceful degradation).
@@ -29,14 +30,6 @@ def get_embedding_model() -> Optional[object]:
     try:
         _model_loading = True
         logger.info("🔄 Loading embedding model (all-mpnet-base-v2)...")
-        try:
-            from sentence_transformers import SentenceTransformer
-        except Exception as imp_err:
-            logger.error(
-                "sentence_transformers import failed during get_embedding_model. Ensure 'sentence-transformers' and its native deps (torch) are installed."
-            )
-            return None
-
         _model = SentenceTransformer('all-mpnet-base-v2')
         logger.info("✅ Embedding model loaded successfully")
         return _model

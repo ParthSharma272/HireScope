@@ -7,6 +7,7 @@ from fastapi import APIRouter, UploadFile, File, HTTPException
 from typing import Dict, Any, List, Tuple
 import re
 from core.parsing import extract_text_from_file
+from sentence_transformers import util
 
 router = APIRouter(prefix="/api/ats", tags=["ats-simulator"])
 
@@ -131,6 +132,7 @@ def detect_sections_intelligently(text: str) -> List[str]:
     if len(potential_sections) > 0:
         try:
             model = get_embedding_model()
+            
             # Reference section headers (examples of what sections should look like)
             reference_sections = [
                 "work experience", "education", "skills", "summary",
@@ -141,30 +143,18 @@ def detect_sections_intelligently(text: str) -> List[str]:
             # Generate embeddings
             reference_embeddings = model.encode(reference_sections, convert_to_tensor=True)
             candidate_embeddings = model.encode(potential_sections, convert_to_tensor=True)
-
-            # Import util lazily (avoids sentence-transformers import at module import time)
-            try:
-                from sentence_transformers import util as st_util
-            except Exception:
-                st_util = None
-
+            
             # Filter candidates based on similarity to reference sections
             valid_sections = []
             for i, candidate in enumerate(potential_sections):
-                # If util isn't available, skip semantic filtering
-                if st_util is None:
-                    # Conservatively accept the candidate
-                    valid_sections.append(candidate)
-                    continue
-
                 # Calculate similarity to all reference sections
-                similarities = st_util.pytorch_cos_sim(candidate_embeddings[i], reference_embeddings)[0]
+                similarities = util.pytorch_cos_sim(candidate_embeddings[i], reference_embeddings)[0]
                 max_similarity = similarities.max().item()
-
+                
                 # If similar enough to any reference section (threshold 0.4), it's likely a section
                 if max_similarity > 0.4:
                     valid_sections.append(candidate)
-
+            
             potential_sections = valid_sections
         except Exception as e:
             print(f"Warning: Could not use embeddings for section validation: {e}")
@@ -193,16 +183,10 @@ def deduplicate_sections_with_llm(found_headers: List[str]) -> List[str]:
         # Generate embeddings for all headers
         embeddings = model.encode(found_headers, convert_to_tensor=True)
         
-    # Find similar pairs using cosine similarity
+        # Find similar pairs using cosine similarity
         unique_sections = []
         used_indices = set()
         
-        # Lazy import util to avoid requiring sentence-transformers at module import time
-        try:
-            from sentence_transformers import util as st_util
-        except Exception:
-            st_util = None
-
         for i, header in enumerate(found_headers):
             if i in used_indices:
                 continue
@@ -214,10 +198,7 @@ def deduplicate_sections_with_llm(found_headers: List[str]) -> List[str]:
             # Find similar headers (similarity > 0.7 means they're likely the same section)
             for j in range(i + 1, len(found_headers)):
                 if j not in used_indices:
-                    # If util isn't available, conservatively keep both entries
-                    if st_util is None:
-                        continue
-                    similarity = st_util.pytorch_cos_sim(embeddings[i], embeddings[j]).item()
+                    similarity = util.pytorch_cos_sim(embeddings[i], embeddings[j]).item()
                     if similarity > 0.7:  # High similarity threshold
                         used_indices.add(j)
         

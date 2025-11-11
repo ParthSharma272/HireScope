@@ -1,9 +1,7 @@
-import React, { useState } from "react";
+import React from "react";
 import { motion } from "framer-motion";
 
 export default function Hero({ onBuildResume }) {
-  const [showPreview, setShowPreview] = useState(false);
-
   return (
     <div className="min-h-screen bg-gradient-to-b from-gray-50 to-white flex items-center py-4 md:py-0">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 w-full pt-25 md:pt-0 pb-8">
@@ -40,11 +38,11 @@ export default function Hero({ onBuildResume }) {
 
               {/* Main Headline with Gradient Underline */}
               <div className="space-y-4">
-          <motion.h1 
+                <motion.h1 
                   initial={{ opacity: 0, y: 20 }}
                   animate={{ opacity: 1, y: 0 }}
                   transition={{ delay: 0.3 }}
-            className="text-2xl sm:text-3xl md:text-5xl lg:text-6xl font-bold text-gray-900 leading-tight relative"
+                  className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold text-gray-900 leading-tight relative"
                 >
                   <span className="relative inline-block">
                     Next-Gen
@@ -98,15 +96,6 @@ export default function Hero({ onBuildResume }) {
                 transition={{ delay: 0.9 }}
                 className="space-y-4 pt-2"
               >
-                {/* Mobile: toggle preview to save space */}
-                <div className="block md:hidden w-full text-right">
-                  <button
-                    onClick={() => setShowPreview((s) => !s)}
-                    className="text-sm text-blue-600 font-medium px-2 py-1"
-                  >
-                    {showPreview ? 'Hide Preview' : 'Show Preview'}
-                  </button>
-                </div>
                 {/* Primary CTA Button */}
                 <div className="relative inline-block w-full sm:w-auto">
                   <div className="absolute -inset-1 bg-gradient-to-r from-purple-600 via-blue-600 to-purple-600 rounded-2xl blur opacity-40 group-hover:opacity-60 transition duration-300"></div>
@@ -197,7 +186,7 @@ export default function Hero({ onBuildResume }) {
             initial={{ opacity: 0, x: 20 }}
             animate={{ opacity: 1, x: 0 }}
             transition={{ duration: 0.6, delay: 0.2 }}
-            className={`relative order-2 ${showPreview ? 'block' : 'hidden'} md:block`}
+            className="relative order-2"
           >
             {/* Main Resume Card */}
             <div className="relative bg-white rounded-3xl shadow-2xl overflow-hidden border border-gray-100">
@@ -371,11 +360,11 @@ export default function Hero({ onBuildResume }) {
               <div className="h-2 bg-gradient-to-r from-purple-600 via-blue-600 to-purple-600"></div>
             </div>
 
-            {/* Floating Badges - hidden on small screens */}
+            {/* Floating Badges - Enhanced */}
             <motion.div
               animate={{ y: [0, -12, 0] }}
               transition={{ duration: 3, repeat: Infinity, ease: "easeInOut" }}
-              className="hidden md:block absolute -top-2 -left-2 md:-top-4 md:-left-4 z-10"
+              className="absolute -top-2 -left-2 md:-top-4 md:-left-4 z-10"
             >
               <div className="bg-gradient-to-r from-blue-500 to-blue-600 text-white px-3 py-2 md:px-4 md:py-2.5 rounded-xl shadow-2xl border-2 border-blue-400">
                 <div className="flex items-center gap-1.5 md:gap-2">
@@ -388,7 +377,7 @@ export default function Hero({ onBuildResume }) {
             <motion.div
               animate={{ y: [0, -12, 0] }}
               transition={{ duration: 3, delay: 1, repeat: Infinity, ease: "easeInOut" }}
-              className="hidden md:block absolute -bottom-2 -right-2 md:-bottom-4 md:-right-4 z-10"
+              className="absolute -bottom-2 -right-2 md:-bottom-4 md:-right-4 z-10"
             >
               <div className="bg-gradient-to-r from-green-500 to-emerald-600 text-white px-3 py-2 md:px-4 md:py-2.5 rounded-xl shadow-2xl border-2 border-green-400">
                 <div className="flex items-center gap-1.5 md:gap-2">
@@ -398,21 +387,21 @@ export default function Hero({ onBuildResume }) {
               </div>
             </motion.div>
 
-            {/* Additional floating metric badges (desktop only) */}
+            {/* Additional floating metric badges */}
             <motion.div
               animate={{ y: [0, -8, 0] }}
               transition={{ duration: 2.5, delay: 0.5, repeat: Infinity, ease: "easeInOut" }}
-              className="hidden md:block absolute top-1/3 -right-4 md:-right-6 z-10"
+              className="absolute top-1/3 -right-4 md:-right-6 z-10 hidden md:block"
             >
               <div className="bg-gradient-to-br from-purple-500 to-pink-600 text-white px-2 py-1.5 md:px-3 md:py-2 rounded-lg shadow-xl">
                 <div className="text-xs font-bold">95% Match</div>
               </div>
             </motion.div>
 
-            {/* Decorative elements - hide on small screens to reduce clutter */}
-            <div className="hidden md:block absolute -z-10 top-10 -right-10 w-48 h-48 md:w-72 md:h-72 bg-gradient-to-br from-purple-200 to-pink-200 rounded-full blur-3xl opacity-40"></div>
-            <div className="hidden md:block absolute -z-10 -bottom-10 -left-10 w-48 h-48 md:w-72 md:h-72 bg-gradient-to-br from-blue-200 to-cyan-200 rounded-full blur-3xl opacity-40"></div>
-            <div className="hidden md:block absolute -z-10 top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-64 h-64 md:w-96 md:h-96 bg-gradient-to-br from-purple-100 to-blue-100 rounded-full blur-3xl opacity-20"></div>
+            {/* Decorative elements - Enhanced */}
+            <div className="absolute -z-10 top-10 -right-10 w-48 h-48 md:w-72 md:h-72 bg-gradient-to-br from-purple-200 to-pink-200 rounded-full blur-3xl opacity-40"></div>
+            <div className="absolute -z-10 -bottom-10 -left-10 w-48 h-48 md:w-72 md:h-72 bg-gradient-to-br from-blue-200 to-cyan-200 rounded-full blur-3xl opacity-40"></div>
+            <div className="absolute -z-10 top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-64 h-64 md:w-96 md:h-96 bg-gradient-to-br from-purple-100 to-blue-100 rounded-full blur-3xl opacity-20"></div>
           </motion.div>
         </div>
       </div>
