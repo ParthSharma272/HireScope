@@ -1,20 +1,9 @@
 # backend/app.py
-import os
 import logging
 import traceback
-from pathlib import Path
 from fastapi import FastAPI, Request
 from fastapi.responses import JSONResponse
 from fastapi.middleware.cors import CORSMiddleware
-
-# Set cache directories BEFORE importing any ML libraries
-# Use /tmp for HuggingFace Spaces compatibility (writable directory)
-CACHE_DIR = Path("/tmp/.cache")
-CACHE_DIR.mkdir(parents=True, exist_ok=True)
-os.environ['TRANSFORMERS_CACHE'] = str(CACHE_DIR / "transformers")
-os.environ['HF_HOME'] = str(CACHE_DIR / "huggingface")
-os.environ['SENTENCE_TRANSFORMERS_HOME'] = str(CACHE_DIR / "sentence_transformers")
-
 from routes.resume_routes import router as resume_router
 from routes.live_routes import router as live_router
 from routes.ats_routes import router as ats_router

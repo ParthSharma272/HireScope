@@ -1,15 +1,4 @@
----
-title: HireScope Backend
-emoji: 📄
-colorFrom: purple
-colorTo: blue
-sdk: docker
-sdk_version: 4.26.0
-app_port: 7860
-pinned: false
----
-
-# HireScope - AI-Powered Resume Analysis & ATS Optimization
+# 🎯 HireScope - AI-Powered Resume Analysis Platform
 
 [![License](https://img.shields.io/badge/license-MIT-blue.svg)](LICENSE)
 [![Python](https://img.shields.io/badge/python-3.13+-blue.svg)](https://www.python.org/downloads/)

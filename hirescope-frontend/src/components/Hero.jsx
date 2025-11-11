@@ -1,7 +1,9 @@
-import React from "react";
+import React, { useState } from "react";
 import { motion } from "framer-motion";
 
 export default function Hero({ onBuildResume }) {
+  const [showPreview, setShowPreview] = useState(false);
+
   return (
     <div className="min-h-screen bg-gradient-to-b from-gray-50 to-white flex items-center py-4 md:py-0">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 w-full pt-25 md:pt-0 pb-8">
@@ -38,11 +40,11 @@ export default function Hero({ onBuildResume }) {
 
               {/* Main Headline with Gradient Underline */}
               <div className="space-y-4">
-                <motion.h1 
+          <motion.h1 
                   initial={{ opacity: 0, y: 20 }}
                   animate={{ opacity: 1, y: 0 }}
                   transition={{ delay: 0.3 }}
-                  className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold text-gray-900 leading-tight relative"
+            className="text-2xl sm:text-3xl md:text-5xl lg:text-6xl font-bold text-gray-900 leading-tight relative"
                 >
                   <span className="relative inline-block">
                     Next-Gen
@@ -96,6 +98,15 @@ export default function Hero({ onBuildResume }) {
                 transition={{ delay: 0.9 }}
                 className="space-y-4 pt-2"
               >
+                {/* Mobile: toggle preview to save space */}
+                <div className="block md:hidden w-full text-right">
+                  <button
+                    onClick={() => setShowPreview((s) => !s)}
+                    className="text-sm text-blue-600 font-medium px-2 py-1"
+                  >
+                    {showPreview ? 'Hide Preview' : 'Show Preview'}
+                  </button>
+                </div>
                 {/* Primary CTA Button */}
                 <div className="relative inline-block w-full sm:w-auto">
                   <div className="absolute -inset-1 bg-gradient-to-r from-purple-600 via-blue-600 to-purple-600 rounded-2xl blur opacity-40 group-hover:opacity-60 transition duration-300"></div>
@@ -186,7 +197,7 @@ export default function Hero({ onBuildResume }) {
             initial={{ opacity: 0, x: 20 }}
             animate={{ opacity: 1, x: 0 }}
             transition={{ duration: 0.6, delay: 0.2 }}
-            className="relative order-2"
+            className={`relative order-2 ${showPreview ? 'block' : 'hidden'} md:block`}
           >
             {/* Main Resume Card */}
             <div className="relative bg-white rounded-3xl shadow-2xl overflow-hidden border border-gray-100">

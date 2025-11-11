@@ -4,7 +4,6 @@ RAG (Retrieval Augmented Generation) Engine for HireScope
 Provides context-aware resume improvement suggestions
 """
 
-from sentence_transformers import SentenceTransformer
 import numpy as np
 import json
 import os
@@ -18,13 +17,24 @@ class SimpleRAGEngine:
     
     def __init__(self, knowledge_base_path="data/resume_tips.json"):
         # Use the existing embedding model for consistency
-        self.model = SentenceTransformer('all-mpnet-base-v2')
+        # Lazy import: avoid importing sentence-transformers (and torch) at module import time
+        try:
+            from sentence_transformers import SentenceTransformer
+            self.model = SentenceTransformer('all-mpnet-base-v2')
+        except Exception as e:
+            self.model = None
+            # model will be created on demand; log if logger available
+            try:
+                import logging
+                logging.getLogger(__name__).warning(f"Embedding model not available at RAG init: {e}")
+            except Exception:
+                pass
         
         # Load or initialize knowledge base
         self.knowledge_base = self._load_knowledge_base(knowledge_base_path)
         self.kb_embeddings = None
         
-        if self.knowledge_base:
+        if self.knowledge_base and self.model is not None:
             self._create_kb_embeddings()
     
     def _load_knowledge_base(self, path: str) -> List[Dict]:

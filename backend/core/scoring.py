@@ -1,4 +1,4 @@
-# backend/core/scoring.py
+import re
 import numpy as np
 from .keyword_match import compute_keyword_match
 
@@ -22,29 +22,112 @@ def detect_role_from_jd(jd_text: str):
     return "GENERAL"
 
 def structural_score(text: str):
+    """
+    Improved structural score checking 6 key resume components.
+    Based on ATS best practices: contact, experience, education, skills, summary, headers.
+    """
     t = text.lower()
-    has_contact = ("@" in t) or ("email" in t)
-    has_exp = ("experience" in t) or ("work experience" in t) or ("projects" in t)
-    has_edu = ("education" in t) or ("bachelor" in t) or ("master" in t) or ("b.sc" in t)
-    score = (1.0*has_contact + 1.0*has_exp + 1.0*has_edu) / 3.0
-    return float(score)
+    score = 0.0
+    
+    # 1. Contact Information (20%) - Must have email or phone
+    has_contact = ("@" in t) or ("email" in t) or re.search(r'\b\d{3}[-.]?\d{3}[-.]?\d{4}\b', t)
+    if has_contact:
+        score += 0.20
+    
+    # 2. Experience Section (25%) - Most critical for ATS
+    has_experience = any(keyword in t for keyword in [
+        "experience", "work experience", "professional experience", 
+        "employment", "work history"
+    ])
+    if has_experience:
+        score += 0.25
+    
+    # 3. Education Section (15%) - Standard requirement
+    has_education = any(keyword in t for keyword in [
+        "education", "bachelor", "master", "b.sc", "b.tech", 
+        "mba", "degree", "university", "college"
+    ])
+    if has_education:
+        score += 0.15
+    
+    # 4. Skills Section (20%) - Critical for ATS keyword matching
+    has_skills = any(keyword in t for keyword in [
+        "skills", "technical skills", "core competencies", 
+        "expertise", "proficiencies"
+    ])
+    if has_skills:
+        score += 0.20
+    
+    # 5. Professional Summary (10%) - Shows intentional writing
+    has_summary = any(keyword in t for keyword in [
+        "summary", "profile", "objective", "about me", 
+        "professional summary", "career summary"
+    ])
+    if has_summary:
+        score += 0.10
+    
+    # 6. Proper Section Headers (10%) - Indicates good structure
+    # Count how many standard headers exist
+    header_patterns = [
+        r'\b(experience|work experience)\b',
+        r'\b(education)\b',
+        r'\b(skills|technical skills)\b',
+        r'\b(projects)\b',
+        r'\b(certifications?)\b'
+    ]
+    headers_found = sum(1 for pattern in header_patterns if re.search(pattern, t))
+    if headers_found >= 3:  # At least 3 proper headers
+        score += 0.10
+    
+    return float(min(1.0, score))  # Cap at 1.0
 
 def readability_score(text: str):
-    # simplified proxy: average sentence length inverse
+    """
+    Improved readability based on optimal bullet length (15 words).
+    Resume bullets should be 10-20 words for clarity.
+    """
     sentences = [s for s in text.split('.') if s.strip()]
     if not sentences:
         return 0.5
+    
     avg_len = sum(len(s.split()) for s in sentences) / len(sentences)
-    # map avg_len to [0,1] with 12 words as ideal
-    score = max(0.0, min(1.0, 1 - abs(avg_len-12)/30))
+    
+    # Optimal: 15 words per sentence/bullet (changed from 12)
+    # Penalty factor: 20 (changed from 30 for stricter scoring)
+    ideal_length = 15
+    penalty_factor = 20
+    
+    score = max(0.0, min(1.0, 1 - abs(avg_len - ideal_length) / penalty_factor))
     return float(score)
 
 def tone_score(text: str):
-    # heuristic: action verbs count / sentence count
-    verbs = ["led","developed","built","designed","implemented","created","managed","optimized","deployed"]
-    count = sum(text.lower().count(v) for v in verbs)
-    sentences = max(1, len([s for s in text.split('.') if s.strip()]))
-    score = min(1.0, count / (0.5*sentences + 1e-10))
+    """
+    Improved tone score using word boundary matching to avoid false positives.
+    Targets 1.2 action verbs per bullet (changed from 0.5 per sentence).
+    """
+    # Expanded action verb list (common resume verbs)
+    verbs = [
+        "led", "developed", "built", "designed", "implemented", "created",
+        "managed", "optimized", "deployed", "achieved", "improved", "increased",
+        "reduced", "launched", "delivered", "established", "coordinated",
+        "analyzed", "executed", "streamlined", "spearheaded", "drove",
+        "initiated", "facilitated", "mentored", "collaborated", "engineered"
+    ]
+    
+    # Use word boundaries to avoid false matches (e.g., "detailed" won't match "led")
+    count = sum(len(re.findall(rf'\b{verb}\b', text.lower())) for verb in verbs)
+    
+    # Count bullets (periods) instead of sentences for more accurate bullet-based scoring
+    bullets = max(1, len([s for s in text.split('.') if s.strip()]))
+    
+    # Target: 1.2 action verbs per bullet (changed from 0.5)
+    # This means excellent resumes should have 1+ verb per bullet
+    target_ratio = 1.2
+    verbs_per_bullet = count / bullets
+    
+    # Score: ratio / target, capped at 1.0
+    score = min(1.0, verbs_per_bullet / target_ratio)
+    
     return float(score)
 
 def semantic_score_from_doc_and_sentences(doc_embedding, sentence_embeddings, jd_embedding=None):
@@ -54,35 +137,43 @@ def semantic_score_from_doc_and_sentences(doc_embedding, sentence_embeddings, jd
     """
     if jd_embedding is None:
         return 0.0
+    
     # dot product because embeddings normalized
     # approach: top-k sentence similarity average
     sims = sentence_embeddings @ jd_embedding
     topk = min(5, len(sims))
     topk_avg = float(np.mean(np.sort(sims)[-topk:])) if len(sims)>0 else float(np.dot(doc_embedding, jd_embedding))
+    
     # clamp 0..1
     return float(max(0.0, min(1.0, topk_avg)))
 
 def compute_scores_with_role(raw_text, keyword_stats, doc_embedding, sentence_embeddings, jd_text=""):
     role = detect_role_from_jd(jd_text)
     weights = ROLE_WEIGHTS.get(role, ROLE_WEIGHTS["GENERAL"])
+    
     # components
     structural = structural_score(raw_text)
+    
     keyword = 0.0
     if keyword_stats and keyword_stats.get("required",0) > 0:
         keyword = keyword_stats["matched"] / max(1, keyword_stats["required"])
+    
     readability = readability_score(raw_text)
     tone = tone_score(raw_text)
+    
     semantic = 0.0
     if jd_text:
         from .embedding_store import embed_texts
         jd_emb = embed_texts([jd_text])[0]
         semantic = semantic_score_from_doc_and_sentences(doc_embedding, sentence_embeddings, jd_emb)
+    
     # composite
     composite = (weights["structural"]*structural +
                  weights["semantic"]*semantic +
                  weights["keyword"]*keyword +
                  weights["readability"]*readability +
                  weights["tone"]*tone)
+    
     # scale to 0..1
     out = {
         "role": role,
@@ -93,4 +184,5 @@ def compute_scores_with_role(raw_text, keyword_stats, doc_embedding, sentence_em
         "tone": round(tone, 3),
         "composite": round(float(composite), 3)
     }
+    
     return out

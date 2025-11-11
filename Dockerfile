@@ -28,8 +28,8 @@ RUN pip install --no-cache-dir -r requirements.txt
 # Download spaCy model
 RUN python -m spacy download en_core_web_sm
 
-# Copy backend application code
-COPY backend/ .
+# Copy application code
+COPY . .
 
 # Expose port
 EXPOSE 7860
