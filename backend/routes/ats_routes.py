@@ -8,7 +8,6 @@ from typing import Dict, Any, List, Tuple
 import re
 from core.parsing import extract_text_from_file
 from sentence_transformers import util
-import torch
 
 router = APIRouter(prefix="/api/ats", tags=["ats-simulator"])
 

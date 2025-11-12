@@ -107,7 +107,7 @@ function App() {
           headers: {
             "Content-Type": "multipart/form-data",
           },
-          timeout: 60000, // 60 second timeout
+          timeout: 120000, // 120 second timeout (first load needs more time)
         }
       );
       

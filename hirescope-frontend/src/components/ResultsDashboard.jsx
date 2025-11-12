@@ -615,10 +615,10 @@ export default function ResultsDashboard({ result }) {
               try {
                 // Import html2pdf dynamically
                 const html2pdf = (await import('html2pdf.js')).default;
-                
-                // Generate HTML content
+
+                // Generate HTML document string
                 const htmlContent = generatePDFContent(result);
-                
+
                 // Convert to PDF and download
                 const opt = {
                   margin: [0.5, 0.5],
@@ -636,31 +636,12 @@ export default function ResultsDashboard({ result }) {
                     format: 'letter', 
                     orientation: 'portrait',
                     compress: true
-                  }
+                  },
+                  pagebreak: { mode: ['css', 'legacy'] }
                 };
                 
-                // Create a temporary element with proper styling
-                const tempDiv = document.createElement('div');
-                tempDiv.innerHTML = htmlContent;
-                tempDiv.style.width = '8.5in';
-                tempDiv.style.padding = '0.5in';
-                tempDiv.style.background = 'white';
-                tempDiv.style.position = 'absolute';
-                tempDiv.style.left = '-9999px';
-                document.body.appendChild(tempDiv);
-                
-                // Small delay to ensure content is rendered
-                await new Promise(resolve => setTimeout(resolve, 100));
-                
-                // Generate PDF
-                await html2pdf().set(opt).from(tempDiv).save();
-                
-                // Clean up after a delay
-                setTimeout(() => {
-                  if (document.body.contains(tempDiv)) {
-                    document.body.removeChild(tempDiv);
-                  }
-                }, 500);
+                // Generate PDF directly from HTML string
+                await html2pdf().set(opt).from(htmlContent, 'string').save();
               } catch (error) {
                 console.error('Error generating PDF:', error);
                 alert(`Error generating PDF: ${error.message || 'Please try again.'}`);
@@ -730,28 +711,23 @@ function generatePDFContent(result) {
     day: 'numeric' 
   });
 
-  return `
-<!DOCTYPE html>
-<html>
-<head>
-  <meta charset="UTF-8">
-  <title>HireScope Resume Analysis Report</title>
-  <style>
-    body {
+  const styles = `
+    .pdf-report {
       font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
       line-height: 1.6;
       color: #1f2937;
-      max-width: 800px;
+      width: 8in;
       margin: 0 auto;
       padding: 40px 20px;
+      background: #fff;
     }
-    .header {
+    .pdf-report .header {
       text-align: center;
       margin-bottom: 40px;
       border-bottom: 3px solid #8b5cf6;
       padding-bottom: 20px;
     }
-    .logo {
+    .pdf-report .logo {
       font-size: 32px;
       font-weight: bold;
       background: linear-gradient(to right, #8b5cf6, #3b82f6);
@@ -759,7 +735,7 @@ function generatePDFContent(result) {
       -webkit-text-fill-color: transparent;
       margin-bottom: 10px;
     }
-    .score-section {
+    .pdf-report .score-section {
       background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
       color: white;
       padding: 30px;
@@ -767,16 +743,16 @@ function generatePDFContent(result) {
       text-align: center;
       margin: 30px 0;
     }
-    .score-value {
+    .pdf-report .score-value {
       font-size: 64px;
       font-weight: bold;
       margin: 20px 0;
     }
-    .section {
+    .pdf-report .section {
       margin: 30px 0;
       page-break-inside: avoid;
     }
-    .section-title {
+    .pdf-report .section-title {
       font-size: 24px;
       font-weight: bold;
       color: #8b5cf6;
@@ -784,7 +760,7 @@ function generatePDFContent(result) {
       border-left: 4px solid #8b5cf6;
       padding-left: 15px;
     }
-    .metric {
+    .pdf-report .metric {
       background: #f3f4f6;
       padding: 15px;
       margin: 10px 0;
@@ -793,15 +769,15 @@ function generatePDFContent(result) {
       justify-content: space-between;
       align-items: center;
     }
-    .metric-label {
+    .pdf-report .metric-label {
       font-weight: 600;
     }
-    .metric-value {
+    .pdf-report .metric-value {
       font-size: 24px;
       font-weight: bold;
       color: #8b5cf6;
     }
-    .keyword-tag {
+    .pdf-report .keyword-tag {
       display: inline-block;
       background: #dbeafe;
       color: #1e40af;
@@ -810,18 +786,18 @@ function generatePDFContent(result) {
       border-radius: 20px;
       font-size: 14px;
     }
-    .missing-tag {
+    .pdf-report .missing-tag {
       background: #fee2e2;
       color: #991b1b;
     }
-    .recommendation {
+    .pdf-report .recommendation {
       background: #fef3c7;
       border-left: 4px solid #f59e0b;
       padding: 15px;
       margin: 10px 0;
       border-radius: 5px;
     }
-    .footer {
+    .pdf-report .footer {
       text-align: center;
       margin-top: 50px;
       padding-top: 20px;
@@ -829,9 +805,18 @@ function generatePDFContent(result) {
       color: #6b7280;
       font-size: 14px;
     }
-  </style>
+  `;
+
+  return `
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8" />
+  <title>HireScope Resume Analysis Report</title>
+  <style>${styles}</style>
 </head>
 <body>
+<div class="pdf-report">
   <div class="header">
     <div class="logo">HireScope</div>
     <h1>Resume Analysis Report</h1>
@@ -936,6 +921,7 @@ function generatePDFContent(result) {
     <p><strong>HireScope</strong> - AI-Powered Resume Analysis</p>
     <p>This report was generated automatically. For best results, implement the recommendations and re-analyze your resume.</p>
   </div>
+</div>
 </body>
 </html>
   `;
