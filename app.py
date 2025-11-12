@@ -12,4 +12,6 @@ BACKEND_DIR = ROOT / "backend"
 if str(BACKEND_DIR) not in sys.path:
     sys.path.insert(0, str(BACKEND_DIR))
 
-from app import app  # noqa: E402,F401
+import app as backend_app
+
+app = backend_app.app
