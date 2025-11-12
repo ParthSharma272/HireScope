@@ -1,3 +1,13 @@
+---
+title: HireScope Backend
+emoji: 🚀
+colorFrom: indigo
+colorTo: blue
+sdk: docker
+sdk_version: "1.0"
+app_file: app.py
+pinned: false
+---
 
 # 🚀 HireScope - AI-Powered Resume Analysis & ATS Optimization
 
