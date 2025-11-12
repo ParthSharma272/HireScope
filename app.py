@@ -9,11 +9,15 @@ import sys
 
 ROOT = Path(__file__).resolve().parent
 BACKEND_DIR = ROOT / "backend"
+
+if str(ROOT) not in sys.path:
+    sys.path.insert(0, str(ROOT))
+
 if str(BACKEND_DIR) not in sys.path:
     sys.path.insert(0, str(BACKEND_DIR))
 
 from importlib import import_module
 
-backend_app_module = import_module("app")
+backend_app_module = import_module("backend.app")
 
 app = backend_app_module.app
