@@ -12,6 +12,8 @@ BACKEND_DIR = ROOT / "backend"
 if str(BACKEND_DIR) not in sys.path:
     sys.path.insert(0, str(BACKEND_DIR))
 
-import app as backend_app
+from importlib import import_module
 
-app = backend_app.app
+backend_app_module = import_module("app")
+
+app = backend_app_module.app
