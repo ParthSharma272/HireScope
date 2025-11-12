@@ -16,16 +16,16 @@ from core.weighted_matching import extract_weighted_keywords, compute_weighted_m
 from core.keyword_match import simple_keywords_from_jd
 from utils.common import hash_bytes
 
+logger = logging.getLogger(__name__)
+
 # Optional: PDF report generation (requires WeasyPrint system dependencies)
 try:
     from core.report import render_pdf_report
     PDF_REPORTS_AVAILABLE = True
 except (ImportError, OSError) as e:
-    logger.warning(f"PDF report generation not available: {e}")
+    logger.warning("PDF report generation not available: %s", e)
     PDF_REPORTS_AVAILABLE = False
     render_pdf_report = None
-
-logger = logging.getLogger(__name__)
 router = APIRouter(prefix="/api/resume", tags=["resume"])
 
 @router.post("/upload")
