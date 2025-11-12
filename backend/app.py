@@ -1,8 +1,9 @@
 # backend/app.py
 import logging
 import traceback
+from pathlib import Path
 from fastapi import FastAPI, Request
-from fastapi.responses import JSONResponse
+from fastapi.responses import JSONResponse, FileResponse
 from fastapi.middleware.cors import CORSMiddleware
 from routes.resume_routes import router as resume_router
 from routes.live_routes import router as live_router
@@ -19,6 +20,8 @@ logging.basicConfig(
 logger = logging.getLogger(__name__)
 
 app = FastAPI(title="HireScope Backend", version="2.0.0")
+
+_FAVICON_PATH = Path(__file__).resolve().parent / "static" / "favicon.svg"
 
 # Global exception handler
 @app.exception_handler(Exception)
@@ -54,6 +57,14 @@ app.include_router(live_router)
 app.include_router(ats_router)
 app.include_router(batch_router)
 app.include_router(template_router)
+
+
+@app.get("/favicon.ico", include_in_schema=False)
+def favicon():
+    """Serve favicon for browsers requesting /favicon.ico."""
+    if _FAVICON_PATH.exists():
+        return FileResponse(str(_FAVICON_PATH), media_type="image/svg+xml")
+    return JSONResponse(status_code=404, content={"detail": "Favicon not found"})
 
 @app.get("/")
 def root():
