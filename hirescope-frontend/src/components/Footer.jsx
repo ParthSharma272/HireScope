@@ -108,7 +108,7 @@ export default function Footer() {
         <div className="pt-6 md:pt-8 border-t border-gray-800">
           <div className="flex flex-col md:flex-row justify-between items-center gap-3 md:gap-4">
             <p className="text-sm text-gray-400 text-center md:text-left">
-              © {currentYear} HireScope. Built with ❤️ by Parth Sharma
+              © {currentYear} HireScope. Built with ❤️ by Parth Sharma and Sankalp Singh
             </p>
             <div className="flex gap-6 text-sm">
               <a href="#" className="text-gray-400 hover:text-white transition-colors">
