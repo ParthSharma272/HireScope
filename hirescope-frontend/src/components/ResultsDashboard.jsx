@@ -641,7 +641,7 @@ export default function ResultsDashboard({ result }) {
                 };
                 
                 // Generate PDF directly from HTML string
-                await html2pdf().set(opt).from(htmlContent).save();
+                await html2pdf().set(opt).from(htmlContent, 'string').save();
               } catch (error) {
                 console.error('Error generating PDF:', error);
                 alert(`Error generating PDF: ${error.message || 'Please try again.'}`);
