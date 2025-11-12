@@ -4,6 +4,7 @@ import traceback
 from pathlib import Path
 from fastapi import FastAPI, Request
 from fastapi.responses import JSONResponse, FileResponse
+from fastapi.staticfiles import StaticFiles
 from fastapi.middleware.cors import CORSMiddleware
 from routes.resume_routes import router as resume_router
 from routes.live_routes import router as live_router
@@ -21,7 +22,8 @@ logger = logging.getLogger(__name__)
 
 app = FastAPI(title="HireScope Backend", version="2.0.0")
 
-_FAVICON_PATH = Path(__file__).resolve().parent / "static" / "favicon.svg"
+_STATIC_DIR = Path(__file__).resolve().parent / "static"
+_FAVICON_PATH = _STATIC_DIR / "favicon.svg"
 
 # Global exception handler
 @app.exception_handler(Exception)
@@ -52,6 +54,9 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
+if _STATIC_DIR.exists():
+    app.mount("/static", StaticFiles(directory=str(_STATIC_DIR)), name="static")
+
 app.include_router(resume_router)
 app.include_router(live_router)
 app.include_router(ats_router)
@@ -62,6 +67,14 @@ app.include_router(template_router)
 @app.get("/favicon.ico", include_in_schema=False)
 def favicon():
     """Serve favicon for browsers requesting /favicon.ico."""
+    if _FAVICON_PATH.exists():
+        return FileResponse(str(_FAVICON_PATH), media_type="image/svg+xml")
+    return JSONResponse(status_code=404, content={"detail": "Favicon not found"})
+
+
+@app.get("/favicon.svg", include_in_schema=False)
+def favicon_svg():
+    """Serve SVG favicon for modern browsers."""
     if _FAVICON_PATH.exists():
         return FileResponse(str(_FAVICON_PATH), media_type="image/svg+xml")
     return JSONResponse(status_code=404, content={"detail": "Favicon not found"})
